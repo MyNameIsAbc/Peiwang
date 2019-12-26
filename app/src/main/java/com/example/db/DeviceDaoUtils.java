@@ -22,9 +22,9 @@ public class DeviceDaoUtils {
      * @param device
      * @return
      */
-    public boolean insertMeizi(Device device) {
+    public boolean insertDevice(Device device) {
         boolean flag = false;
-        flag = mManager.getDaoSession().getDeviceDao().insert(device) == -1 ? false : true;
+        flag = mManager.getDaoSession().getDeviceDao().insertOrReplace(device) == -1 ? false : true;
         Logger.d("insert Device :" + flag + "-->" + device.toString());
         return flag;
     }
@@ -34,7 +34,7 @@ public class DeviceDaoUtils {
      * @param meiziList
      * @return
      */
-    public boolean insertMultMeizi(final List<Device> meiziList) {
+    public boolean insertMultDevice(final List<Device> meiziList) {
         boolean flag = false;
         try {
             mManager.getDaoSession().runInTx(new Runnable() {
@@ -105,7 +105,7 @@ public class DeviceDaoUtils {
      * 查询所有记录
      * @return
      */
-    public List<Device> queryAllMeizi(){
+    public List<Device> queryAllDevice(){
         return mManager.getDaoSession().loadAll(Device.class);
     }
 
@@ -118,6 +118,8 @@ public class DeviceDaoUtils {
         return mManager.getDaoSession().load(Device.class, key);
     }
 
+
+
     /**
      * 使用native sql进行查询操作
      */
@@ -129,9 +131,15 @@ public class DeviceDaoUtils {
      * 使用queryBuilder进行查询
      * @return
      */
-    public List<Device> queryMeiziByQueryBuilder(long id){
+    public List<Device> queryDeviceByQueryBuilder(long id){
         QueryBuilder<Device> queryBuilder = mManager.getDaoSession().queryBuilder(Device.class);
         return queryBuilder.where(DeviceDao.Properties._id.eq(id)).list();
+//        return queryBuilder.where(MeiziDao.Properties._id.ge(id)).list();
+    }
+
+    public List<Device> queryDeviceByQueryBuilder(String sn){
+        QueryBuilder<Device> queryBuilder = mManager.getDaoSession().queryBuilder(Device.class);
+        return queryBuilder.where(DeviceDao.Properties.Sn.eq(sn)).list();
 //        return queryBuilder.where(MeiziDao.Properties._id.ge(id)).list();
     }
 }

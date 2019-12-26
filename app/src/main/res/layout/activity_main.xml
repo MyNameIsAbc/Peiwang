@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <android.support.v4.view.ViewPager
+        android:layout_marginTop="30dp"
         android:id="@+id/packpage_vPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -30,7 +31,7 @@
             android:button="@null"
             android:drawableTop="@mipmap/cgt_tabbar_weixin_nor"
             android:gravity="center"
-            android:text="主页" />
+                android:text="设备列表" />
 
         <RadioButton
             android:id="@+id/main_navi_contact"
@@ -40,6 +41,6 @@
             android:button="@null"
             android:drawableTop="@mipmap/cgt_tabbar_me_nor"
             android:gravity="center"
-            android:text="关于" />
+            android:text="设置" />
     </RadioGroup>
 </LinearLayout>

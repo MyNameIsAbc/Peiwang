@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.base.BaseAdapter;
+import com.example.bean.DeviceBean;
 import com.example.bean.StatusBean;
 import com.example.peiwang.R;
 
@@ -15,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class HomneAdapter extends BaseAdapter<StatusBean> {
+public class HomneAdapter extends BaseAdapter<DeviceBean> {
 
 
     public HomneAdapter(Context context) {
@@ -29,14 +30,16 @@ public class HomneAdapter extends BaseAdapter<StatusBean> {
     }
 
     @Override
-    public void onBind(RecyclerView.ViewHolder viewHolder, int position, StatusBean data) {
-        DeviceHolder deviceHolder=(DeviceHolder)viewHolder;
+    public void onBind(RecyclerView.ViewHolder viewHolder, int position, DeviceBean data) {
+        DeviceHolder deviceHolder = (DeviceHolder) viewHolder;
         deviceHolder.setData(data);
     }
 
 
     static
     class DeviceHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_device_sn)
+        TextView tvDeviceSn;
         @BindView(R.id.tv_device_name)
         TextView tvDeviceName;
         @BindView(R.id.tv_device_lang)
@@ -53,15 +56,15 @@ public class HomneAdapter extends BaseAdapter<StatusBean> {
             ButterKnife.bind(this, view);
         }
 
-        public void setData(StatusBean statusBean){
-            StatusBean.DataBean dataBean=statusBean.getData();
-           if (dataBean.getAutoLang()==1)
-               tvDeviceName.setText("翻译模式:自动切换语言");
-           else
-               tvDeviceName.setText("翻译模式:固定语言");
-           tvCharge.setText("电量:"+dataBean.getPower());
-           tvDeviceVolume.setText("音量:"+dataBean.getVolume());
-           tvDeviceLang.setText("语言："+"fromLang:"+dataBean.getFromLang()+"   toLang:"+dataBean.getToLang());
+        public void setData(DeviceBean statusBean) {
+            tvDeviceSn.setText("设备SN:" + statusBean.getSn());
+            if (statusBean.getAutoLang() == 1)
+                tvDeviceName.setText("翻译模式:自动切换语言");
+            else
+                tvDeviceName.setText("翻译模式:固定语言");
+            tvCharge.setText("电量:" + statusBean.getPower());
+            tvDeviceVolume.setText("音量:" + statusBean.getVolume());
+            tvDeviceLang.setText("语言：" + "fromLang:" + statusBean.getFromLang() + "   toLang:" + statusBean.getToLang());
         }
     }
 }

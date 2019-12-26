@@ -16,18 +16,28 @@ import com.example.adapter.HomneAdapter;
 import com.example.base.BaseAdapter;
 import com.example.base.BaseFragment;
 import com.example.base.Constant;
+import com.example.bean.DeviceBean;
 import com.example.bean.MessageWaper;
 import com.example.bean.StatusBean;
+import com.example.db.Device;
+import com.example.db.DeviceDao;
+import com.example.db.DeviceDaoUtils;
 import com.example.net.ApiService;
 import com.example.net.RetrofitManager;
 import com.example.peiwang.AddDeviceActivity;
 import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
 import com.orhanobut.logger.Logger;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +55,9 @@ public class HomeFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.lin_tip)
     LinearLayout linTip;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+    Unbinder unbinder1;
 
     @Override
     public int getContentViewId() {
@@ -71,6 +84,39 @@ public class HomeFragment extends BaseFragment {
             }
         });
         recycHome.setAdapter(homneAdapter);
+
+        refreshData();
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+                refreshData();
+
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            }
+        });
+
+    }
+
+    private void refreshData() {
+        DeviceDaoUtils deviceDaoUtils = new DeviceDaoUtils(getContext());
+        List<Device> devices = deviceDaoUtils.queryAllDevice();
+        Logger.d("devices:"+devices.size()+devices.isEmpty());
+        if (devices.isEmpty())
+            linTip.setVisibility(View.VISIBLE);
+        else {
+            linTip.setVisibility(View.INVISIBLE);
+            homneAdapter.clear();
+            for (Device d : devices) {
+                getDeviceInfo(d.getSn());
+            }
+        }
     }
 
     @Override
@@ -95,17 +141,24 @@ public class HomeFragment extends BaseFragment {
     public void onMessageEvent(MessageWaper event) {
         switch (event.type) {
             case Constant.TEXT_TYPE_ADD_DEVICE:
-                String sn= (String) event.object;
+                String sn = (String) event.object;
                 getDeviceInfo(sn);
+                DeviceDaoUtils deviceDaoUtils = new DeviceDaoUtils(getContext());
+                List<Device>devices= deviceDaoUtils.queryDeviceByQueryBuilder(sn);
+                if (devices.isEmpty()){
+                    Device device = new Device();
+                    device.setSn(sn);
+                    deviceDaoUtils.insertDevice(device);
+                }
                 break;
         }
     }
 
-    public void getDeviceInfo(String sn){
+    public void getDeviceInfo(final String sn) {
         RetrofitManager.getInstance().getRetrofit()
                 //动态代理创建GithubAPI对象
                 .create(ApiService.class)
-                .getStatus("0",sn)
+                .getStatus("0", sn)
                 //指定上游发送事件线程
                 .subscribeOn(Schedulers.computation())
                 //指定下游接收事件线程
@@ -119,16 +172,24 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onNext(String s) {
                         Logger.d("Device:" + s);
-                        JSONObject jsonObject= JSON.parseObject(s);
-                        if (jsonObject.getIntValue("success")==1){
-                            StatusBean statusBean=JSON.parseObject(s,StatusBean.class);
-                            homneAdapter.addData(statusBean);
+                        JSONObject jsonObject = JSON.parseObject(s);
+                        if (jsonObject.getIntValue("success") == 1) {
+                            StatusBean statusBean = JSON.parseObject(s, StatusBean.class);
+                            StatusBean.DataBean dataBean = statusBean.getData();
+                            DeviceBean deviceBean = new DeviceBean(sn, dataBean.getVolume(), dataBean.getPower(), dataBean.getNetwork(),
+                                    dataBean.getAutoLang(), dataBean.getFromLang(), dataBean.getToLang());
+                            homneAdapter.addData(deviceBean);
                             linTip.setVisibility(View.INVISIBLE);
-                        }else {
-                            String msg=jsonObject.getString("msg");
-                            Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(getActivity(), PeiWangActivity.class);
-                            getActivity().startActivity(intent);
+                        } else {
+                            String msg = jsonObject.getString("msg");
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                            if (jsonObject.getIntValue("code") == -1) {
+
+                            } else {
+                                Intent intent = new Intent(getActivity(), PeiWangActivity.class);
+                                getActivity().startActivity(intent);
+
+                            }
                         }
                     }
 
@@ -143,4 +204,5 @@ public class HomeFragment extends BaseFragment {
                     }
                 });
     }
+
 }

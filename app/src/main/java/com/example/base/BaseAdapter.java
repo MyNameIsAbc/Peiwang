@@ -10,6 +10,7 @@ import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by plcgo on 2016/12/29.
@@ -20,7 +21,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     public static final int TYPE_ITEM_HEADER = 10000;
     public static final int TYPE_ITEM_NORMAL = 10001;
     public static final int TYPE_ITEM_FOOTER = 10002;
-    protected List<T> mList = new ArrayList<>();
+    protected List<T> mList = new CopyOnWriteArrayList<>();
 
     private View mHeaderView;
     private View mFooterView;
@@ -100,10 +101,13 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         notifyItemRemoved(position);
     }
 
+
+
     public List<T> addData(T data) {
-        mList.add(data);
-        notifyItemChanged(mList.size() - 1);
-        notifyDataSetChanged();
+
+            mList.add(data);
+            notifyDataSetChanged();
+            notifyItemChanged(mList.size()-1);
 //        mRecyclerView.scrollToPosition(mList.size() - 1);
         return mList;
     }
