@@ -25,6 +25,7 @@ import com.example.db.DeviceDaoUtils;
 import com.example.net.ApiService;
 import com.example.net.RetrofitManager;
 import com.example.peiwang.AddDeviceActivity;
+import com.example.peiwang.DeviceSettingActivity;
 import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
 import com.orhanobut.logger.Logger;
@@ -80,7 +81,9 @@ public class HomeFragment extends BaseFragment {
         homneAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, Object data) {
-
+                Intent intent=new Intent(getActivity(), DeviceSettingActivity.class);
+                intent.putExtra("bean",(DeviceBean)data);
+                getActivity().startActivity(intent);
             }
         });
         recycHome.setAdapter(homneAdapter);

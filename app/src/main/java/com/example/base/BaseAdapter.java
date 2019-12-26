@@ -85,7 +85,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemCount() {
         if (mHeaderView == null && mFooterView == null) {//头布局和脚布局都为空则都是正常布局
-            Logger.d("size: " + mList.size());
             return mList.size();
         } else if (mHeaderView != null && mFooterView == null) {//只有头布局
             return mList.size() + 1;
@@ -152,6 +151,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     public void addDatas(List<T> datas) {
         mList.addAll(datas);
         notifyDataSetChanged();
+    }
+
+    public T getData(int position){
+        return mList.get(position);
     }
 
     public List<T> getDatas() {

@@ -1,6 +1,8 @@
 package com.example.bean;
 
-public class DeviceBean {
+import java.io.Serializable;
+
+public class DeviceBean implements Serializable {
     /**
      * volume : 10
      * power : 2
