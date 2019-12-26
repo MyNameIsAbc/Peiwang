@@ -103,8 +103,7 @@ public class MainActivity extends BaseActivity {
         //实例化Location应用管理类
         Acp.getInstance(this).request(new AcpOptions.Builder()
                         .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                , Manifest.permission.READ_PHONE_STATE, Manifest.permission.CAMERA
-                                , Manifest.permission.CAMERA)
+                                , Manifest.permission.READ_PHONE_STATE, Manifest.permission.CAMERA)
                         .setDeniedMessage("需要权限启动")
                         /*以下为自定义提示语、按钮文字
                         .setDeniedMessage()

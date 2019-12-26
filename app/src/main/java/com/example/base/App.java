@@ -6,11 +6,13 @@ package com.example.base;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.example.db.DaoManager;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.squareup.leakcanary.LeakCanary;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -27,7 +29,7 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
-                .showThreadInfo(false)  // 是否显示线程信息，默认为ture
+                .showThreadInfo(true)  // 是否显示线程信息，默认为ture
                 .methodCount(0)         // 显示的方法行数，默认为2
                 .methodOffset(7)        // 隐藏内部方法调用到偏移量，默认为5// 更改要打印的日志策略。
                 .tag("PRETTY_LOGGER")   // 每个日志的全局标记。默认PRETTY_LOGGER
@@ -35,6 +37,10 @@ public class App extends MultiDexApplication {
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
         MultiDex.install(this);
         setupLeakCanary();
+        Logger.d("APPLICATION START!!!");
+        ZXingLibrary.initDisplayOpinion(this);
+        DaoManager mManager = DaoManager.getInstance();
+        mManager.init(this);
     }
 
     protected void setupLeakCanary() {

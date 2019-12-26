@@ -117,6 +117,8 @@ public class Constant {
     public static final int TEXT_TYPE_CA_ES = 0x100059;
 
 
+    public static final int TEXT_TYPE_ADD_DEVICE = 1024;
+
     public static void setLngUI(String lng, TextView textView, ImageView imageView) {
         String str = "";
         int res = 0;

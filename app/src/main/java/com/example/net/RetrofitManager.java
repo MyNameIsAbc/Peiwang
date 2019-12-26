@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitManager {
-    public static final String BASE_URL = "http://cloud.earchat.com:8080/api";
+    public static final String BASE_URL = "http://cloud.earchat.com:8081/";
     private static RetrofitManager sInstance;
     private Retrofit mRetrofit;
 
