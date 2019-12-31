@@ -79,7 +79,6 @@ public class DeviceSettingActivity extends BaseActivity {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
         tvDo.setVisibility(View.VISIBLE);
@@ -115,8 +114,6 @@ public class DeviceSettingActivity extends BaseActivity {
             autoCheck.setChecked(true);
             autoTranslate = 1;
         }
-
-
         autoCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

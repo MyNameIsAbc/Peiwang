@@ -76,7 +76,7 @@ public class WifiUtils implements Serializable {
             mWifiManager.setWifiEnabled(true);
         }
 
-        mWifiList = mWifiManager.getScanResults();
+        mWifiList.addAll(mWifiManager.getScanResults()) ;
         for (ScanResult scanResult:mWifiList){
             if (scanResult.frequency > 4900 && scanResult.frequency < 5900){
                 mWifiList.remove(scanResult);
