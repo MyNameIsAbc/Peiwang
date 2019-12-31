@@ -8,10 +8,10 @@ import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
-public class DeviceDaoUtils {
+public class LangDaoUtils {
     private DaoManager mManager;
-    private static final String DB_NAME = "Device";
-    public DeviceDaoUtils(Context context) {
+    private static final String DB_NAME = "Language";
+    public LangDaoUtils(Context context) {
         mManager = DaoManager.getInstance();
         mManager.init(context,DB_NAME);
     }
@@ -19,13 +19,13 @@ public class DeviceDaoUtils {
     /**
      * 完成meizi记录的插入，如果表未创建，先创建Meizi表
      *
-     * @param device
+     * @param language
      * @return
      */
-    public boolean insertDevice(Device device) {
+    public boolean insertLanguage(Language language) {
         boolean flag = false;
-        flag = mManager.getDaoSession().getDeviceDao().insertOrReplace(device) == -1 ? false : true;
-        Logger.d("insert Device :" + flag + "-->" + device.toString());
+        flag = mManager.getDaoSession().getLanguageDao().insertOrReplace(language) == -1 ? false : true;
+        Logger.d("insert Device :" + language + "-->" + language.toString());
         return flag;
     }
 
@@ -34,13 +34,13 @@ public class DeviceDaoUtils {
      * @param meiziList
      * @return
      */
-    public boolean insertMultDevice(final List<Device> meiziList) {
+    public boolean insertMultLanguage(final List<Language> meiziList) {
         boolean flag = false;
         try {
             mManager.getDaoSession().runInTx(new Runnable() {
                 @Override
                 public void run() {
-                    for (Device meizi : meiziList) {
+                    for (Language meizi : meiziList) {
                         mManager.getDaoSession().insertOrReplace(meizi);
                     }
                 }
@@ -53,11 +53,25 @@ public class DeviceDaoUtils {
     }
 
     /**
+     * 更新数据
+     * @param language
+     */
+    public void update(Language language){
+        QueryBuilder<Language> queryBuilder = mManager.getDaoSession().queryBuilder(Language.class);
+        Language tempLanguage=queryBuilder.where(LanguageDao.Properties.Langcode.eq(language.getLangcode())).build().unique();//拿到之前的记录
+        if(tempLanguage !=null){
+            tempLanguage.setLangcode(language.getLangcode());
+            tempLanguage.setMomo(language.getMomo());
+            mManager.getDaoSession().update(tempLanguage);
+        }
+    }
+
+    /**
      * 修改一条数据
      * @param meizi
      * @return
      */
-    public boolean updateDevice(Device meizi){
+    public boolean updateLanguage(Language meizi){
         boolean flag = false;
         try {
             mManager.getDaoSession().update(meizi);
@@ -73,7 +87,7 @@ public class DeviceDaoUtils {
      * @param meizi
      * @return
      */
-    public boolean deleteDevice(Device meizi){
+    public boolean deleteLanguage(Language meizi){
         boolean flag = false;
         try {
             //按照id删除
@@ -93,7 +107,7 @@ public class DeviceDaoUtils {
         boolean flag = false;
         try {
             //按照id删除
-            mManager.getDaoSession().deleteAll(Device.class);
+            mManager.getDaoSession().deleteAll(Language.class);
             flag = true;
         }catch (Exception e){
             e.printStackTrace();
@@ -105,8 +119,8 @@ public class DeviceDaoUtils {
      * 查询所有记录
      * @return
      */
-    public List<Device> queryAllDevice(){
-        return mManager.getDaoSession().loadAll(Device.class);
+    public List<Language> queryAllDevice(){
+        return mManager.getDaoSession().loadAll(Language.class);
     }
 
     /**
@@ -114,8 +128,8 @@ public class DeviceDaoUtils {
      * @param key
      * @return
      */
-    public Device queryMeiziById(long key){
-        return mManager.getDaoSession().load(Device.class, key);
+    public Language queryMeiziById(long key){
+        return mManager.getDaoSession().load(Language.class, key);
     }
 
 
@@ -123,23 +137,23 @@ public class DeviceDaoUtils {
     /**
      * 使用native sql进行查询操作
      */
-    public List<Device> queryMeiziByNativeSql(String sql, String[] conditions){
-        return mManager.getDaoSession().queryRaw(Device.class, sql, conditions);
+    public List<Language> queryLanguageByNativeSql(String sql, String[] conditions){
+        return mManager.getDaoSession().queryRaw(Language.class, sql, conditions);
     }
 
     /**
      * 使用queryBuilder进行查询
      * @return
      */
-    public List<Device> queryDeviceByQueryBuilder(long id){
-        QueryBuilder<Device> queryBuilder = mManager.getDaoSession().queryBuilder(Device.class);
-        return queryBuilder.where(DeviceDao.Properties._id.eq(id)).list();
+    public Language queryLanguageByQueryBuilderLangID(String langid){
+        QueryBuilder<Language> queryBuilder = mManager.getDaoSession().queryBuilder(Language.class);
+        return queryBuilder.where(LanguageDao.Properties.Langid.eq(langid)).unique();
+    }
+
+    public Language queryLanguageByQueryBuilder(String code){
+        QueryBuilder<Language> queryBuilder = mManager.getDaoSession().queryBuilder(Language.class);
+        return queryBuilder.where(LanguageDao.Properties.Langcode.eq(code)).unique();
 //        return queryBuilder.where(MeiziDao.Properties._id.ge(id)).list();
     }
 
-    public List<Device> queryDeviceByQueryBuilder(String sn){
-        QueryBuilder<Device> queryBuilder = mManager.getDaoSession().queryBuilder(Device.class);
-        return queryBuilder.where(DeviceDao.Properties.Sn.eq(sn)).list();
-//        return queryBuilder.where(MeiziDao.Properties._id.ge(id)).list();
-    }
 }

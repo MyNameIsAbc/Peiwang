@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取WIFI信息状态的权限 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取网络状态改变的权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name="com.example.base.App"
         android:allowBackup="true"
@@ -28,7 +30,13 @@
         <activity
             android:name=".PeiWangActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".DeviceSettingActivity"/>
+        <activity android:name=".DeviceSettingActivity" />
+        <activity
+            android:name=".LanguageSetActivity"
+            android:launchMode="singleTop" />
+
+        <service android:name="com.example.utils.LangService" />
+
     </application>
 
 </manifest>

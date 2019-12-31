@@ -2,11 +2,13 @@ package com.example.base;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.example.db.DaoManager;
 import com.example.peiwang.R;
+import com.example.utils.LangService;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -63,8 +65,9 @@ public class App extends MultiDexApplication {
         MultiDex.install(this);
         setupLeakCanary();
         ZXingLibrary.initDisplayOpinion(this);
-        DaoManager mManager = DaoManager.getInstance();
-        mManager.init(this);
+
+        Intent intent = new Intent(this, LangService.class);
+        startService(intent);
     }
 
     protected void setupLeakCanary() {

@@ -2,14 +2,14 @@ package com.example.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.base.BaseAdapter;
+import com.example.base.Constant;
 import com.example.bean.DeviceBean;
-import com.example.bean.StatusBean;
 import com.example.peiwang.R;
 
 import butterknife.BindView;
@@ -42,8 +42,10 @@ public class HomneAdapter extends BaseAdapter<DeviceBean> {
         TextView tvDeviceSn;
         @BindView(R.id.tv_device_name)
         TextView tvDeviceName;
-        @BindView(R.id.tv_device_lang)
-        TextView tvDeviceLang;
+        @BindView(R.id.tv_device_from)
+        TextView tvDeviceFrom;
+        @BindView(R.id.tv_device_to)
+        TextView tvDeviceTo;
         @BindView(R.id.tv_device_volume)
         TextView tvDeviceVolume;
         @BindView(R.id.tv_charge)
@@ -64,7 +66,10 @@ public class HomneAdapter extends BaseAdapter<DeviceBean> {
                 tvDeviceName.setText("翻译模式:固定语言");
             tvCharge.setText("电量:" + statusBean.getPower());
             tvDeviceVolume.setText("音量:" + statusBean.getVolume());
-            tvDeviceLang.setText("语言：" + "fromLang:" + statusBean.getFromLang() + "   toLang:" + statusBean.getToLang());
+            Constant.setLngUI(statusBean.getFromLang(),tvDeviceFrom,null);
+            Constant.setLngUI(statusBean.getToLang(),tvDeviceTo,null);
         }
     }
+
+
 }

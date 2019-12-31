@@ -454,7 +454,9 @@ public class Constant {
                 res = R.drawable.ca_es;
                 break;
         }
+        if (textView!=null)
         textView.setText(str);
+        if (imageView!=null)
         imageView.setImageResource(res);
     }
 }

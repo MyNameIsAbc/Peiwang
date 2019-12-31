@@ -4,7 +4,7 @@ import android.content.Context;
 
 public class DaoManager {
 
-    private static final String DB_NAME = "Device";
+
 
     private Context context;
 
@@ -13,7 +13,7 @@ public class DaoManager {
     private static DaoMaster sDaoMaster;
     private static DaoMaster.DevOpenHelper sHelper;
     private static DaoSession sDaoSession;
-
+    private  String dbName;
     /**
      * 单例模式获得操作数据库对象
      *
@@ -29,9 +29,10 @@ public class DaoManager {
 
     }
 
-    public void init(Context context)
+    public void init(Context context,String dbName)
     {
         this.context = context;
+        this.dbName=dbName;
     }
 
     /**
@@ -43,7 +44,7 @@ public class DaoManager {
     {
         if (sDaoMaster == null)
         {
-            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, DB_NAME, null);
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, dbName, null);
             sDaoMaster = new DaoMaster(helper.getWritableDatabase());
         }
         return sDaoMaster;
