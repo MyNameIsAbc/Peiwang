@@ -43,6 +43,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/fragment_tv_appname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
@@ -123,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="配网"/>
+            android:text="配网 (Wifi版)"/>
         <View
             android:layout_width="wrap_content"
             android:layout_height="0dp"
