@@ -10,6 +10,7 @@ import com.example.base.BaseActivity;
 import com.example.utils.AppUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AboutActivity extends BaseActivity implements View.OnClickListener {
 
@@ -38,7 +39,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void getUnbinder() {
-
+        ButterKnife.bind(this);
     }
 
     @Override
