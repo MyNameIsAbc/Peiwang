@@ -7,17 +7,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.base.BaseActivity;
+import com.example.base.Constant;
+import com.example.bean.MessageWaper;
 import com.example.fragment.AboutFragment;
 import com.example.fragment.HomeFragment;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +55,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         fragments.clear();
         fragments.add(new HomeFragment());
         fragments.add(new AboutFragment());
@@ -150,7 +156,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void disarmState() {
-
+        EventBus.getDefault().unregister(this);
     }
 
     @OnClick({R.id.main_navi_msg_records, R.id.main_navi_contact})
@@ -167,4 +173,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageWaper event) {
+        switch (event.type) {
+            case Constant.TEXT_TYPE_ADD_DEVICE:
+                packpageVPager.setCurrentItem(0);
+                break;
+        }
+    }
 }

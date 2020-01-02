@@ -4,12 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btn_adddevice"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="guanyu"
+        android:text="添加设备"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_peiwang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="配网"
+        app:layout_constraintTop_toBottomOf="@id/btn_adddevice" />
 </android.support.constraint.ConstraintLayout>

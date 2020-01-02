@@ -3,15 +3,12 @@ package com.example.net;
 
 import com.example.bean.ShengboBean;
 import com.example.bean.StatusBean;
-
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
