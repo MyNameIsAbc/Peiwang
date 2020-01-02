@@ -9,4 +9,9 @@
     <color name="colorText">#FF333333</color>
     <color name="colorOrange">#FD8F01</color>
     <color name="bg_selet_language">#2a2a2a</color>
+
+
+    <color name="colorglay">#C0C0C0</color>
+    <color name="colorblue">#8F8FBD</color>
+
 </resources>
