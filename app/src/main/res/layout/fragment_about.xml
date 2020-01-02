@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="30dp"
+    android:layout_marginTop="20dp"
     android:orientation="vertical">
 
     <Button
@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
             <TextView
+                android:id="@+id/fragment_tv_appversion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -67,11 +68,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
+            android:visibility="gone"
             android:src="@mipmap/ll_next_right_24px"/>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/fragment_ll_add"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -103,6 +106,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/fragment_ll_wifi"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -134,6 +138,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/fragment_ll_heart"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
