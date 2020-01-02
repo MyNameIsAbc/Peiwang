@@ -9,6 +9,7 @@ import android.support.multidex.MultiDexApplication;
 import com.example.db.DaoManager;
 import com.example.peiwang.R;
 import com.example.utils.LangService;
+import com.example.utils.SharePreferencesUtils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -65,9 +66,11 @@ public class App extends MultiDexApplication {
         MultiDex.install(this);
         setupLeakCanary();
         ZXingLibrary.initDisplayOpinion(this);
+        if (!SharePreferencesUtils.getBoolean(getApplicationContext(),"init",false)){
+            Intent intent = new Intent(this, LangService.class);
+            startService(intent);
+        }
 
-        Intent intent = new Intent(this, LangService.class);
-        startService(intent);
     }
 
     protected void setupLeakCanary() {

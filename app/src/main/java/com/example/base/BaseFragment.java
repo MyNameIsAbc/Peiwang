@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.utils.FixMenLeak;
+
 import butterknife.Unbinder;
 
 
@@ -54,6 +56,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     public void onDestroy() {
         super.onDestroy();
         disarmState();
+        FixMenLeak.fixLeak(getContext());
     }
 
     @Override

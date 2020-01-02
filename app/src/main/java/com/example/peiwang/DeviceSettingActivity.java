@@ -55,7 +55,6 @@ public class DeviceSettingActivity extends BaseActivity {
     TextView tvTolng;
     @BindView(R.id.lin_top)
     LinearLayout linTop;
-
     DeviceBean deviceBean;
     @BindView(R.id.seekbar)
     BubbleSeekBar seekbar;
@@ -220,7 +219,6 @@ public class DeviceSettingActivity extends BaseActivity {
                             showToast("修改语言成功");
                         else
                             showToast(s.getMsg());
-
                         hideLoading();
                     }
 

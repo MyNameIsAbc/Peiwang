@@ -44,7 +44,6 @@ public class LangService extends IntentService {
                     language.setLangcode(s[1]);
                     langDaoUtils.insertLanguage(language);
                 }
-
                 String line2="";
                 while ((line2=zhbufferReader.readLine())!=null){
                     String s[] = line2.split("=");
@@ -59,6 +58,7 @@ public class LangService extends IntentService {
                     Logger.d("language:"+l.toString());
                 }
                 Logger.d("language size:"+languages.size());
+                SharePreferencesUtils.setBoolean(getApplicationContext(),"init",true);
             }
         } catch (IOException e) {
             e.printStackTrace();
