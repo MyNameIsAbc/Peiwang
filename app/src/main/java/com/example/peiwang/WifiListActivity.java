@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.example.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class WifiListActivity extends BaseActivity {

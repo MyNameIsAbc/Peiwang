@@ -63,4 +63,5 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.57'
     implementation 'org.greenrobot:greendao:3.2.2' // add library
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
+    implementation 'com.xw.repo:bubbleseekbar:3.20-lite'
 }

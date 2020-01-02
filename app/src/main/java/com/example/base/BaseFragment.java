@@ -2,6 +2,7 @@ package com.example.base;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.utils.FixMenLeak;
 
 import butterknife.Unbinder;
 
@@ -54,6 +57,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     public void onDestroy() {
         super.onDestroy();
         disarmState();
+        FixMenLeak.fixLeak(getContext());
     }
 
     @Override
@@ -101,4 +105,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
         }
     }
 
+    public void gotoActivity(Class<?> cls) {
+        startActivity(new Intent(getContext(), cls));
+    }
 }

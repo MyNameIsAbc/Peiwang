@@ -1,19 +1,13 @@
 package com.example.peiwang;
-
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
-
 import com.example.base.BaseActivity;
 import com.example.base.Constant;
 import com.example.bean.MessageWaper;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
-import com.uuzuche.lib_zxing.activity.ZXingLibrary;
-
 import org.greenrobot.eventbus.EventBus;
 
 public class AddDeviceActivity extends BaseActivity {
@@ -57,10 +51,8 @@ public class AddDeviceActivity extends BaseActivity {
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(this, "解析二维码失败", Toast.LENGTH_LONG).show();
                 }
-                finish();
             }
+            finish();
         }
     }
-
-
 }

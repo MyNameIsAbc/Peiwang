@@ -127,7 +127,6 @@ public class HomeFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -145,9 +144,9 @@ public class HomeFragment extends BaseFragment {
         switch (event.type) {
             case Constant.TEXT_TYPE_ADD_DEVICE:
                 String sn = (String) event.object;
-                getDeviceInfo(sn);
                 DeviceDaoUtils deviceDaoUtils = new DeviceDaoUtils(getContext());
                 List<Device>devices= deviceDaoUtils.queryDeviceByQueryBuilder(sn);
+                getDeviceInfo(sn);
                 if (devices.isEmpty()){
                     Device device = new Device();
                     device.setSn(sn);
