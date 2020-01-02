@@ -19,10 +19,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class AboutFragment extends BaseFragment {
-    @BindView(R.id.btn_adddevice)
-    Button btnAdddevice;
-    @BindView(R.id.btn_peiwang)
-    Button btnPeiwang;
     Unbinder unbinder;
 
     @Override
@@ -51,15 +47,5 @@ public class AboutFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.btn_adddevice, R.id.btn_peiwang})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_adddevice:
-                gotoActivity(AddDeviceActivity.class);
-                break;
-            case R.id.btn_peiwang:
-                gotoActivity(PeiWangActivity.class);
-                break;
-        }
-    }
+
 }
