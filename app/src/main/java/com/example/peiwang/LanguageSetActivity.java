@@ -69,19 +69,19 @@ public class LanguageSetActivity extends BaseActivity {
         languageList.setAdapter(languageSetAdapter);
         sn = getIntent().getStringExtra("sn");
         type = getIntent().getIntExtra("type", -1);
-        Logger.d("type:"+type);
+        Logger.d("type:" + type);
         getLang(sn);
         languageSetAdapter.setOnItemClickListener(new LanguageSetAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (type == 0) {
-                    EventBus.getDefault().post(new MessageWaper(languages.get(position),Constant.EVENT_SET_MOTHER_LANGUAGE));
-                    SharePreferencesUtils.setString(LanguageSetActivity.this,"from",languages.get(position).getLangcode());
-                    SharePreferencesUtils.setString(LanguageSetActivity.this,"frommemo",languages.get(position).getMomo());
+                    EventBus.getDefault().post(new MessageWaper(languages.get(position), Constant.EVENT_SET_MOTHER_LANGUAGE));
+                    SharePreferencesUtils.setString(LanguageSetActivity.this, "from", languages.get(position).getLangcode());
+                    SharePreferencesUtils.setString(LanguageSetActivity.this, "frommemo", languages.get(position).getMomo());
                 } else if (type == 1) {
-                    EventBus.getDefault().post(new MessageWaper(languages.get(position),Constant.EVENT_SET_FOREIGN_LANGUAGE));
-                    SharePreferencesUtils.setString(LanguageSetActivity.this,"to",languages.get(position).getLangcode());
-                    SharePreferencesUtils.setString(LanguageSetActivity.this,"tomemo",languages.get(position).getMomo());
+                    EventBus.getDefault().post(new MessageWaper(languages.get(position), Constant.EVENT_SET_FOREIGN_LANGUAGE));
+                    SharePreferencesUtils.setString(LanguageSetActivity.this, "to", languages.get(position).getLangcode());
+                    SharePreferencesUtils.setString(LanguageSetActivity.this, "tomemo", languages.get(position).getMomo());
                 }
             }
         });
@@ -92,15 +92,15 @@ public class LanguageSetActivity extends BaseActivity {
         super.onNewIntent(intent);
         sn = getIntent().getStringExtra("sn");
         type = getIntent().getIntExtra("type", -1);
-        Logger.d("type:"+type);
+        Logger.d("type:" + type);
         getLang(sn);
         languageSetAdapter.setOnItemClickListener(new LanguageSetAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (type == 0) {
-                    EventBus.getDefault().post(new MessageWaper(languages.get(position),Constant.EVENT_SET_MOTHER_LANGUAGE));
+                    EventBus.getDefault().post(new MessageWaper(languages.get(position), Constant.EVENT_SET_MOTHER_LANGUAGE));
                 } else if (type == 1) {
-                    EventBus.getDefault().post(new MessageWaper(languages.get(position),Constant.EVENT_SET_FOREIGN_LANGUAGE));
+                    EventBus.getDefault().post(new MessageWaper(languages.get(position), Constant.EVENT_SET_FOREIGN_LANGUAGE));
                 }
             }
         });
@@ -108,7 +108,7 @@ public class LanguageSetActivity extends BaseActivity {
 
     @Override
     protected void disarmState() {
-        langDaoUtils=null;
+        langDaoUtils = null;
     }
 
     public void getLang(String sn) {
@@ -143,9 +143,15 @@ public class LanguageSetActivity extends BaseActivity {
                                 Logger.d("len:" + len);
                                 for (int i = 2; i < len; i++) {
                                     String langid = CommonUtils.byteToInt(buffer[i]) + "";
-                                    languages.add(langDaoUtils.queryLanguageByQueryBuilderLangID(langid));
-
+                                    Logger.d("langid:" + langid);
+                                    Language language = langDaoUtils.queryLanguageByQueryBuilderLangID(langid);
+                                    Logger.d("language:" + language);
+                                    if (language == null)
+                                        continue;
+                                    else
+                                        languages.add(language);
                                 }
+                                if (!languages.isEmpty())
                                 languageSetAdapter.resetData(languages);
                             }
 

@@ -81,9 +81,15 @@ public class HomeFragment extends BaseFragment {
         homneAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, Object data) {
-                Intent intent=new Intent(getActivity(), DeviceSettingActivity.class);
-                intent.putExtra("bean",(DeviceBean)data);
-                getActivity().startActivity(intent);
+                DeviceBean deviceBean = (DeviceBean) data;
+                if (deviceBean.getNetwork() == -1) {
+                    Intent intent = new Intent(getActivity(), PeiWangActivity.class);
+                    getActivity().startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getActivity(), DeviceSettingActivity.class);
+                    intent.putExtra("bean", (DeviceBean) data);
+                    getActivity().startActivity(intent);
+                }
             }
         });
         recycHome.setAdapter(homneAdapter);
@@ -110,7 +116,7 @@ public class HomeFragment extends BaseFragment {
     private void refreshData() {
         DeviceDaoUtils deviceDaoUtils = new DeviceDaoUtils(getContext());
         List<Device> devices = deviceDaoUtils.queryAllDevice();
-        Logger.d("devices:"+devices.size()+devices.isEmpty());
+        Logger.d("devices:" + devices.size() + devices.isEmpty());
         if (devices.isEmpty())
             linTip.setVisibility(View.VISIBLE);
         else {
@@ -145,12 +151,12 @@ public class HomeFragment extends BaseFragment {
             case Constant.TEXT_TYPE_ADD_DEVICE:
                 String sn = (String) event.object;
                 DeviceDaoUtils deviceDaoUtils = new DeviceDaoUtils(getContext());
-                List<Device>devices= deviceDaoUtils.queryDeviceByQueryBuilder(sn);
-                getDeviceInfo(sn);
-                if (devices.isEmpty()){
+                List<Device> devices = deviceDaoUtils.queryDeviceByQueryBuilder(sn);
+                if (devices.isEmpty()) {
                     Device device = new Device();
                     device.setSn(sn);
                     deviceDaoUtils.insertDevice(device);
+                    getDeviceInfo(sn);
                 }
                 break;
         }
@@ -188,9 +194,11 @@ public class HomeFragment extends BaseFragment {
                             if (jsonObject.getIntValue("code") == -1) {
 
                             } else {
-                                Intent intent = new Intent(getActivity(), PeiWangActivity.class);
-                                getActivity().startActivity(intent);
-
+                                DeviceBean deviceBean = new DeviceBean(sn, -1, -1, -1,
+                                        -1, "", "");
+//
+                                homneAdapter.addData(deviceBean);
+                                linTip.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
