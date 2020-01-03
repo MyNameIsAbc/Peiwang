@@ -12,7 +12,6 @@
         <android.support.v7.widget.RecyclerView
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/recyc_home"
-            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintVertical_weight="1"

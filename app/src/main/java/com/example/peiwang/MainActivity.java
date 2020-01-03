@@ -2,6 +2,7 @@ package com.example.peiwang;
 
 
 import android.Manifest;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -129,10 +130,12 @@ public class MainActivity extends BaseActivity {
                         finish();
                     }
                 });
+
     }
 
     public void switchFragment(int index) {
         switch (index) {
+
             case 0:
                 packpageVPager.setCurrentItem(0, false);
                 Drawable drawableFirst = getResources().getDrawable(R.mipmap.cgt_tabbar_weixin_sel);
@@ -180,5 +183,13 @@ public class MainActivity extends BaseActivity {
                 packpageVPager.setCurrentItem(0);
                 break;
         }
+    }
+
+    private void setSize(RadioButton rb){
+        Rect rect=new Rect();
+        rect.set(0,0,60,60);    //距离父窗体的距离，可以理解为左上和右下的坐标
+        Drawable[] drawables = rb.getCompoundDrawables();
+        drawables[1].setBounds(rect);  //取出上边的图片设置大小
+        rb.setCompoundDrawables(null, drawables[1], null, null);  //把这张图片放在上边，这四个参表示图片放在左、上、有、下
     }
 }

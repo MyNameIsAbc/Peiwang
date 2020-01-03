@@ -11,26 +11,27 @@ import com.example.utils.AppUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class AboutActivity extends BaseActivity implements View.OnClickListener {
+public class AboutActivity extends BaseActivity {
+
 
     @BindView(R.id.about_iv_back)
-     ImageView mIvBack;
+    ImageView aboutIvBack;
     @BindView(R.id.about_iv_appicon)
-     ImageView mAppIcon;
+    ImageView aboutIvAppicon;
     @BindView(R.id.about_tv_appname)
-     TextView mAppName;
+    TextView aboutTvAppname;
     @BindView(R.id.about_tv_appversion)
-     TextView mAppVersion;
+    TextView aboutTvAppversion;
     @BindView(R.id.about_rl_history)
-     RelativeLayout mHistory;
+    RelativeLayout aboutRlHistory;
     @BindView(R.id.about_rl_update)
-     RelativeLayout mUpdate;
+    RelativeLayout aboutRlUpdate;
     @BindView(R.id.about_tv_protocol_1)
-     RelativeLayout mProtocol1;
+    TextView aboutTvProtocol1;
     @BindView(R.id.about_tv_protocol_2)
-     RelativeLayout mProtocol2;
-
+    TextView aboutTvProtocol2;
 
     @Override
     protected int getContentViewId() {
@@ -45,15 +46,10 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
 
-        mAppIcon.setImageBitmap(AppUtils.getBitmap(this));
-        mAppName.setText(AppUtils.getAppName(this));
-        mAppVersion.setText(AppUtils.getVersionName(this));
+        aboutIvAppicon.setImageBitmap(AppUtils.getBitmap(this));
+        aboutTvAppname.setText(AppUtils.getAppName(this));
+        aboutTvAppversion.setText(AppUtils.getVersionName(this));
 
-        mIvBack.setOnClickListener(this);
-        mHistory.setOnClickListener(this);
-        mUpdate.setOnClickListener(this);
-        mProtocol1.setOnClickListener(this);
-        mProtocol2.setOnClickListener(this);
 
     }
 
@@ -62,9 +58,12 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+
+
+
+    @OnClick({R.id.about_iv_back, R.id.about_rl_history, R.id.about_rl_update, R.id.about_tv_protocol_1, R.id.about_tv_protocol_2})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
             case R.id.about_iv_back:
                 finish();
                 break;

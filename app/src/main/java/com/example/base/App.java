@@ -10,8 +10,10 @@ import com.example.db.DaoManager;
 import com.example.db.LangDaoUtils;
 import com.example.db.Language;
 import com.example.peiwang.R;
+import com.example.utils.AppUtils;
 import com.example.utils.LangService;
 import com.example.utils.SharePreferencesUtils;
+import com.example.utils.SystemUtils;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -37,6 +39,8 @@ public class App extends MultiDexApplication {
     public static String getSysText(int textType) {
         return SystemText.getChineseText(textType);
     }
+
+    public static String Appname, AppCode;
 
     static {
         //设置全局的Header构建器
@@ -70,17 +74,19 @@ public class App extends MultiDexApplication {
         MultiDex.install(this);
         setupLeakCanary();
         ZXingLibrary.initDisplayOpinion(this);
-        if (!SharePreferencesUtils.getBoolean(getApplicationContext(),"init",false)){
+        if (!SharePreferencesUtils.getBoolean(getApplicationContext(), "init", false)) {
             Intent intent = new Intent(this, LangService.class);
             startService(intent);
-        }else {
-            List<Language> languages=new LangDaoUtils(this).queryAllDevice();
-            for (Language l:languages) {
-                Logger.d("stored language:"+l.toString());
+        } else {
+            List<Language> languages = new LangDaoUtils(this).queryAllDevice();
+            for (Language l : languages) {
+                Logger.d("stored language:" + l.toString());
             }
-            Logger.d("language size:"+languages.size());
+            Logger.d("language size:" + languages.size());
         }
         Bugly.init(getApplicationContext(), "205c860c87", true);
+        Appname= AppUtils.getAppName(this);
+        AppCode=SystemUtils.getVersionName(this)+"";
     }
 
     protected void setupLeakCanary() {

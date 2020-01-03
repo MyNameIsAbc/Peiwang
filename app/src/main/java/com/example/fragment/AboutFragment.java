@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.base.App;
 import com.example.base.BaseFragment;
 import com.example.peiwang.AboutActivity;
 import com.example.peiwang.AddDeviceActivity;
@@ -20,16 +21,18 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class AboutFragment extends BaseFragment {
-    @BindView(R.id.fragment_tv_appname)
-    TextView fragmentTvAppname;
-    @BindView(R.id.fragment_tv_appversion)
-    TextView fragmentTvAppversion;
+
     @BindView(R.id.fragment_ll_add)
     LinearLayout fragmentLlAdd;
     @BindView(R.id.fragment_ll_wifi)
     LinearLayout fragmentLlWifi;
     @BindView(R.id.fragment_ll_heart)
     LinearLayout fragmentLlHeart;
+    @BindView(R.id.fragment_tv_appname)
+    TextView fragmentTvAppname;
+    @BindView(R.id.fragment_tv_appversion)
+    TextView fragmentTvAppversion;
+    Unbinder unbinder;
 
 
     @Override
@@ -44,8 +47,9 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-//        fragmentTvAppname.setText(SystemUtils.getVersionName(getContext()));
-//        fragmentTvAppversion.setText(SystemUtils.getVersionCode(getContext()));
+
+        fragmentTvAppname.setText(App.Appname);
+        fragmentTvAppversion.setText(App.AppCode);
     }
 
     @Override
@@ -58,7 +62,6 @@ public class AboutFragment extends BaseFragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 
     @OnClick({R.id.fragment_ll_add, R.id.fragment_ll_wifi, R.id.fragment_ll_heart})
@@ -74,5 +77,13 @@ public class AboutFragment extends BaseFragment {
                 gotoActivity(AboutActivity.class);
                 break;
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
     }
 }

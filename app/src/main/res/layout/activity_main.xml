@@ -31,7 +31,7 @@
             android:button="@null"
             android:drawableTop="@mipmap/cgt_tabbar_weixin_nor"
             android:gravity="center"
-                android:text="设备列表" />
+            android:text="设备列表" />
 
         <RadioButton
             android:id="@+id/main_navi_contact"
