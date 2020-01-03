@@ -138,20 +138,20 @@ public class MainActivity extends BaseActivity {
 
             case 0:
                 packpageVPager.setCurrentItem(0, false);
-                Drawable drawableFirst = getResources().getDrawable(R.mipmap.cgt_tabbar_weixin_sel);
+                Drawable drawableFirst = getResources().getDrawable(R.mipmap.cgt_tabbar_weixin_sel_1);
                 mainNaviMsgRecords.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableFirst, null, null);//只放上面
 
-                Drawable drawableSecond = getResources().getDrawable(R.mipmap.cgt_tabbar_me_nor);
+                Drawable drawableSecond = getResources().getDrawable(R.mipmap.cgt_tabbar_me_nor_1);
                 mainNaviContact.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableSecond, null, null);//只放上面
                 break;
             case 1:
                 //点击第一个radiobutton,显示viewpager的第一页
                 packpageVPager.setCurrentItem(1, false);
 
-                Drawable drawableFirst2 = getResources().getDrawable(R.mipmap.cgt_tabbar_weixin_nor);
+                Drawable drawableFirst2 = getResources().getDrawable(R.mipmap.cgt_tabbar_weixin_nor_1);
                 mainNaviMsgRecords.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableFirst2, null, null);//只放上面
 
-                Drawable drawableSecond2 = getResources().getDrawable(R.mipmap.cgt_tabbar_me_sel);
+                Drawable drawableSecond2 = getResources().getDrawable(R.mipmap.cgt_tabbar_me_sel_1);
                 mainNaviContact.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableSecond2, null, null);//只放上面
                 break;
         }
