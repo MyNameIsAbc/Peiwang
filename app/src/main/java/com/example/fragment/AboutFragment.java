@@ -34,7 +34,6 @@ public class AboutFragment extends BaseFragment {
     TextView fragmentTvAppversion;
     Unbinder unbinder;
 
-
     @Override
     public int getContentViewId() {
         return R.layout.fragment_about;
@@ -47,7 +46,6 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-
         fragmentTvAppname.setText(App.Appname);
         fragmentTvAppversion.setText(App.AppCode);
     }

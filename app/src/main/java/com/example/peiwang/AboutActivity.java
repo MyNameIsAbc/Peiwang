@@ -45,12 +45,9 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-
         aboutIvAppicon.setImageBitmap(AppUtils.getBitmap(this));
         aboutTvAppname.setText(AppUtils.getAppName(this));
         aboutTvAppversion.setText(AppUtils.getVersionName(this));
-
-
     }
 
     @Override
