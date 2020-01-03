@@ -4,12 +4,10 @@ import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,14 +37,17 @@ public class PeiWangActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.tv_do)
     TextView tvDo;
-    @BindView(R.id.spinner)
-    Spinner spinner;
     @BindView(R.id.et_passward)
     EditText etPassward;
     @BindView(R.id.btn_start)
     Button btnStart;
+    @BindView(R.id.et_id)
+    EditText etId;
+    @BindView(R.id.peiwang_tv_change)
+    TextView peiwangTvChange;
+    @BindView(R.id.peiwang_iv_show)
+    ImageView peiwangIvShow;
     private List<String> list = new ArrayList<>();
-    private ArrayAdapter<String> adapter;
     String ssid;
 
     @Override
@@ -68,20 +69,6 @@ public class PeiWangActivity extends BaseActivity {
             list.add(s.SSID);
         }
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ssid = adapter.getItem(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         tvTitle.setText("配网");
     }
 
@@ -127,7 +114,7 @@ public class PeiWangActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.ll_return, R.id.tv_do,R.id.btn_start})
+    @OnClick({R.id.ll_return, R.id.tv_do, R.id.btn_start,R.id.peiwang_tv_change, R.id.peiwang_iv_show})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_return:
@@ -142,6 +129,20 @@ public class PeiWangActivity extends BaseActivity {
                 }
                 startPeiWang(ssid, etPassward.getText().toString());
                 break;
+            case R.id.peiwang_tv_change:
+
+                break;
+            case R.id.peiwang_iv_show:
+
+                break;
         }
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
 }
