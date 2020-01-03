@@ -2,6 +2,7 @@
     <string name="app_name">Peiwang</string>
 
     <!--  activity_about  -->
+    <string name="activity_about_title">关于我们</string>
     <string name="activity_about_history">历史版本</string>
     <string name="activity_about_update">版本更新</string>
     <string name="activity_about_company">腾讯公司 版权所有</string>

@@ -60,11 +60,14 @@ public class MainActivity extends BaseActivity {
         fragments.clear();
         fragments.add(new HomeFragment());
         fragments.add(new AboutFragment());
+
         packpageVPager.setAdapter(new FragmentPagerAdapter(this.getSupportFragmentManager()) {
+
             @Override
             public int getCount() {
                 return fragments.size();
             }
+
             @Override
             public Fragment getItem(int arg0) {
                 return fragments.get(arg0);
@@ -74,11 +77,14 @@ public class MainActivity extends BaseActivity {
         packpageVPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
+
             }
+
             @Override
             public void onPageSelected(int i) {
                 switchFragment(i);
             }
+
             @Override
             public void onPageScrollStateChanged(int i) {
 
@@ -129,27 +135,24 @@ public class MainActivity extends BaseActivity {
 
     public void switchFragment(int index) {
         switch (index) {
+
             case 0:
                 packpageVPager.setCurrentItem(0, false);
-                Drawable drawableFirst = getResources().getDrawable(R.mipmap.cgt_tabbar_weixin_sel);
+                Drawable drawableFirst = getResources().getDrawable(R.mipmap.cgt_tabbar_weixin_sel_1);
                 mainNaviMsgRecords.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableFirst, null, null);//只放上面
-                mainNaviMsgRecords.setChecked(true);
 
-                Drawable drawableSecond = getResources().getDrawable(R.mipmap.cgt_tabbar_me_nor);
+                Drawable drawableSecond = getResources().getDrawable(R.mipmap.cgt_tabbar_me_nor_1);
                 mainNaviContact.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableSecond, null, null);//只放上面
-                mainNaviContact.setChecked(false);
                 break;
-
             case 1:
                 //点击第一个radiobutton,显示viewpager的第一页
                 packpageVPager.setCurrentItem(1, false);
-                Drawable drawableFirst2 = getResources().getDrawable(R.mipmap.cgt_tabbar_weixin_nor);
-                mainNaviMsgRecords.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableFirst2, null, null);//只放上面
-                mainNaviMsgRecords.setChecked(false);
 
-                Drawable drawableSecond2 = getResources().getDrawable(R.mipmap.cgt_tabbar_me_sel);
+                Drawable drawableFirst2 = getResources().getDrawable(R.mipmap.cgt_tabbar_weixin_nor_1);
+                mainNaviMsgRecords.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableFirst2, null, null);//只放上面
+
+                Drawable drawableSecond2 = getResources().getDrawable(R.mipmap.cgt_tabbar_me_sel_1);
                 mainNaviContact.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableSecond2, null, null);//只放上面
-                mainNaviContact.setChecked(true);
                 break;
         }
     }

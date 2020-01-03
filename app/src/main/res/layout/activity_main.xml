@@ -27,20 +27,24 @@
             android:id="@+id/main_navi_msg_records"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:paddingTop="7dp"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@mipmap/cgt_tabbar_weixin_nor"
+            android:drawableTop="@mipmap/cgt_tabbar_weixin_nor_1"
             android:gravity="center"
+            android:textSize="12sp"
             android:text="设备列表" />
 
         <RadioButton
             android:id="@+id/main_navi_contact"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:paddingTop="7dp"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@mipmap/cgt_tabbar_me_nor"
+            android:drawableTop="@mipmap/cgt_tabbar_me_nor_1"
             android:gravity="center"
+            android:textSize="12sp"
             android:text="设置" />
     </RadioGroup>
 </LinearLayout>

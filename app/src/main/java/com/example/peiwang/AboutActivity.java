@@ -3,6 +3,7 @@ package com.example.peiwang;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,9 +16,6 @@ import butterknife.OnClick;
 
 public class AboutActivity extends BaseActivity {
 
-
-    @BindView(R.id.about_iv_back)
-    ImageView aboutIvBack;
     @BindView(R.id.about_iv_appicon)
     ImageView aboutIvAppicon;
     @BindView(R.id.about_tv_appname)
@@ -32,6 +30,8 @@ public class AboutActivity extends BaseActivity {
     TextView aboutTvProtocol1;
     @BindView(R.id.about_tv_protocol_2)
     TextView aboutTvProtocol2;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
 
     @Override
     protected int getContentViewId() {
@@ -45,9 +45,13 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
+
+        tvTitle.setText(R.string.activity_about_title);
         aboutIvAppicon.setImageBitmap(AppUtils.getBitmap(this));
         aboutTvAppname.setText(AppUtils.getAppName(this));
         aboutTvAppversion.setText(AppUtils.getVersionName(this));
+
+
     }
 
     @Override
@@ -56,12 +60,10 @@ public class AboutActivity extends BaseActivity {
     }
 
 
-
-
-    @OnClick({R.id.about_iv_back, R.id.about_rl_history, R.id.about_rl_update, R.id.about_tv_protocol_1, R.id.about_tv_protocol_2})
+    @OnClick({R.id.ll_return,R.id.about_rl_history, R.id.about_rl_update, R.id.about_tv_protocol_1, R.id.about_tv_protocol_2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.about_iv_back:
+            case R.id.ll_return:
                 finish();
                 break;
             case R.id.about_rl_history:
@@ -73,5 +75,12 @@ public class AboutActivity extends BaseActivity {
             case R.id.about_tv_protocol_2:
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
