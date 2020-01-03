@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.example.base.BaseActivity;
 import com.example.base.Constant;
 import com.example.bean.DeviceBean;
@@ -34,7 +32,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 public class DeviceSettingActivity extends BaseActivity {
     @BindView(R.id.ll_return)
@@ -59,12 +56,18 @@ public class DeviceSettingActivity extends BaseActivity {
     @BindView(R.id.seekbar)
     BubbleSeekBar seekbar;
     @BindView(R.id.auto_check)
-    CheckBox autoCheck;
+    ImageView autoCheck;
 
     int volume;
     int autoTranslate;
 
     String from, to;
+    @BindView(R.id.iv_power)
+    ImageView ivPower;
+    @BindView(R.id.iv_wifi)
+    ImageView ivWifi;
+    @BindView(R.id.device_check)
+    LinearLayout deviceCheck;
 
     @Override
     protected int getContentViewId() {
@@ -84,11 +87,11 @@ public class DeviceSettingActivity extends BaseActivity {
         tvTitle.setText("设置设备");
         deviceBean = (DeviceBean) getIntent().getSerializableExtra("bean");
         Logger.d("deviceBean:" + deviceBean);
-        from=deviceBean.getFromLang();
-        to=deviceBean.getToLang();
+        from = deviceBean.getFromLang();
+        to = deviceBean.getToLang();
         Constant.setLngUI(deviceBean.getFromLang(), tvFromlng, ivFromlng);
         Constant.setLngUI(deviceBean.getToLang(), tvTolng, ivTolng);
-        volume=deviceBean.getVolume();
+        volume = deviceBean.getVolume();
         seekbar.setProgress(deviceBean.getVolume());
         seekbar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
@@ -107,21 +110,39 @@ public class DeviceSettingActivity extends BaseActivity {
         });
 
         if (deviceBean.getAutoLang() == 0) {
-            autoCheck.setChecked(false);
+            autoCheck.setImageResource(R.mipmap.check_nor);
             autoTranslate = 0;
         } else {
-            autoCheck.setChecked(true);
+            autoCheck.setImageResource(R.mipmap.check_ck);
             autoTranslate = 1;
         }
-        autoCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    autoTranslate = 1;
-                else
-                    autoTranslate = 0;
-            }
-        });
+
+        //
+        switch (deviceBean.getPower()) {
+            case 1:
+                ivPower.setImageResource(R.mipmap.battery_1_32px);
+                break;
+            case 2:
+                ivPower.setImageResource(R.mipmap.battery_2_32px);
+                break;
+            case 3:
+                ivPower.setImageResource(R.mipmap.battery_3_32px);
+                break;
+        }
+
+
+        switch (deviceBean.getNetwork()) {
+            case 1:
+                ivWifi.setImageResource(R.mipmap.wifi_1_32px);
+                break;
+            case 2:
+                ivWifi.setImageResource(R.mipmap.wifi_2_32px);
+                break;
+            case 3:
+                ivWifi.setImageResource(R.mipmap.wifi_3_32px);
+                break;
+        }
+
     }
 
     @Override
@@ -130,7 +151,7 @@ public class DeviceSettingActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.ll_return, R.id.iv_fromlng, R.id.tv_fromlng, R.id.iv_switch, R.id.iv_tolng, R.id.tv_tolng, R.id.tv_do})
+    @OnClick({R.id.ll_return, R.id.iv_fromlng, R.id.tv_fromlng, R.id.iv_switch, R.id.iv_tolng, R.id.tv_tolng, R.id.tv_do,R.id.device_check})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_return:
@@ -155,6 +176,15 @@ public class DeviceSettingActivity extends BaseActivity {
             case R.id.tv_do:
                 saveLanguage();
                 saveVolume();
+                break;
+            case R.id.device_check:
+                if(autoTranslate == 1){
+                    autoTranslate = 0;
+                    autoCheck.setImageResource(R.mipmap.check_nor);
+                }else if(autoTranslate == 0){
+                    autoTranslate = 1;
+                    autoCheck.setImageResource(R.mipmap.check_ck);
+                }
                 break;
         }
     }
@@ -188,14 +218,14 @@ public class DeviceSettingActivity extends BaseActivity {
 
 
     public void saveLanguage() {
-        if (from.equals(to)){
+        if (from.equals(to)) {
             showToast("翻译语言不能与母语相同!");
             return;
         }
-        if (to.equals("zh_cn")&&autoTranslate==1){
-            String temp=from;
-            from=to;
-            to=temp;
+        if (to.equals("zh_cn") && autoTranslate == 1) {
+            String temp = from;
+            from = to;
+            to = temp;
         }
         showLoading();
         RetrofitManager.getInstance().getRetrofit()
@@ -235,7 +265,7 @@ public class DeviceSettingActivity extends BaseActivity {
                 });
     }
 
-    public void saveVolume(){
+    public void saveVolume() {
         RetrofitManager.getInstance().getRetrofit()
                 //动态代理创建GithubAPI对象
                 .create(ApiService.class)
@@ -273,4 +303,12 @@ public class DeviceSettingActivity extends BaseActivity {
                     }
                 });
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
 }

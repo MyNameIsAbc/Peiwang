@@ -7,108 +7,222 @@
 
     <include layout="@layout/title" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="150dp"
-        android:text="语言设置" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/colorglay"
+        />
 
     <LinearLayout
-        android:id="@+id/lin_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/lin_top"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_fromlng"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:src="@drawable/cn" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_fromlng"
+                <ImageView
+                    android:id="@+id/iv_fromlng"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/cn" />
+
+                <TextView
+                    android:id="@+id/tv_fromlng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text_glay"
+                    android:text="中文" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="中文" />
-        </LinearLayout>
+                android:gravity="center">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
+                <ImageView
+                    android:id="@+id/iv_switch"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/img_flag" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_switch"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/switchlng" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/iv_tolng"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:src="@drawable/cn" />
-
-            <TextView
-                android:id="@+id/tv_tolng"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="中文" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_tolng"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/cn" />
+
+                <TextView
+                    android:id="@+id/tv_tolng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text_glay"
+                    android:text="中文" />
+            </LinearLayout>
         </LinearLayout>
+
+
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/auto_check"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
-        android:text="是否自动识别语言" />
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/color_text_glay"
+            android:text="音量调节" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="15dp"
-        android:text="音量调节" />
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0.2dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginLeft="30dp"-->
+<!--            android:layout_marginRight="30dp"-->
+<!--            android:background="@color/colorglay"/>-->
 
-    <com.xw.repo.BubbleSeekBar
-        android:id="@+id/seekbar"
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            app:bsb_bubble_color="@android:color/black"
+            app:bsb_bubble_text_color="@color/colorWhite"
+            app:bsb_max="10"
+            app:bsb_min="1"
+            app:bsb_second_track_color="@android:color/black"
+            app:bsb_section_count="1"
+            app:bsb_section_text_position="below_section_mark"
+            app:bsb_show_section_mark="true"
+            app:bsb_show_section_text="true"
+            app:bsb_show_thumb_text="true"
+            app:bsb_track_color="@android:color/black" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/device_check"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="30dp"
-        app:bsb_bubble_color="@android:color/black"
-        app:bsb_bubble_text_color="@color/colorWhite"
-        app:bsb_max="10"
-        app:bsb_min="1"
-        app:bsb_second_track_color="@android:color/black"
-        app:bsb_section_count="1"
-        app:bsb_section_text_position="below_section_mark"
-        app:bsb_show_section_mark="true"
-        app:bsb_show_section_text="true"
-        app:bsb_show_thumb_text="true"
-        app:bsb_track_color="@android:color/black" />
+        android:gravity="center_vertical"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_text_glay"
+            android:text="自动识别" />
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/auto_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="37dp"
+            android:src="@mipmap/check_ck"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_text_glay"
+            android:text="电量显示" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:src="@mipmap/battery_3_32px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_text_glay"
+            android:text="网络信号" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="37dp"
+            android:src="@mipmap/wifi_3_32px"
+            />
+    </LinearLayout>
+
+
 </LinearLayout>

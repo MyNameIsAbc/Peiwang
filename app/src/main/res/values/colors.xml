@@ -13,5 +13,6 @@
 
     <color name="colorglay">#C0C0C0</color>
     <color name="colorblue">#8F8FBD</color>
+    <color name="color_text_glay">#838282</color>
 
 </resources>
