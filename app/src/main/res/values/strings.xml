@@ -7,4 +7,6 @@
     <string name="activity_about_update">版本更新</string>
     <string name="activity_about_company">腾讯公司 版权所有</string>
     <string name="activity_about_record">Copyright © 2011-2019 Tencet.All.Rights Reserved.</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_certain">确定</string>
 </resources>

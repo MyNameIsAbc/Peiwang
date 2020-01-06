@@ -53,7 +53,7 @@ public class WifiUtils implements Serializable {
      * @return
      */
     public String getWifiName() {
-        return (wifiInfo == null) ? null : wifiInfo.getSSID();
+        return (wifiInfo == null) ? null : wifiInfo.getSSID().replace("\"", "");
     }
 
     /**
@@ -75,7 +75,6 @@ public class WifiUtils implements Serializable {
         if (!mWifiManager.isWifiEnabled()) {
             mWifiManager.setWifiEnabled(true);
         }
-
         mWifiList.addAll(mWifiManager.getScanResults()) ;
         for (ScanResult scanResult:mWifiList){
             if (scanResult.frequency > 4900 && scanResult.frequency < 5900){
@@ -126,5 +125,18 @@ public class WifiUtils implements Serializable {
                             dialog.dismiss();
                         }
                     }).show();
+    }
+
+    public static void changeWifi(Context context){
+        Intent i = new Intent();
+        if(android.os.Build.VERSION.SDK_INT >= 11){
+            //Honeycomb
+            i.setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
+        }else{
+            //other versions
+            i.setClassName("com.android.settings"
+                    , "com.android.settings.wifi.WifiSettings");
+        }
+        context.startActivity(i);
     }
 }

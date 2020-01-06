@@ -1,5 +1,6 @@
 package com.example.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,9 @@ import com.example.peiwang.AboutActivity;
 import com.example.peiwang.AddDeviceActivity;
 import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
+import com.example.utils.ChooseDeviceDialog;
 import com.example.utils.SystemUtils;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,7 +69,16 @@ public class AboutFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fragment_ll_add:
-                gotoActivity(AddDeviceActivity.class);
+                ChooseDeviceDialog chooseDeviceDialog=new ChooseDeviceDialog(getContext());
+                chooseDeviceDialog.setListener(new ChooseDeviceDialog.OnSelectClickListener() {
+                    @Override
+                    public void onSelectClick(int selectType) {
+                        if (selectType==1){
+                            gotoActivity(AddDeviceActivity.class);
+                        }
+                    }
+                });
+                chooseDeviceDialog.show();
                 break;
             case R.id.fragment_ll_wifi:
                 gotoActivity(PeiWangActivity.class);

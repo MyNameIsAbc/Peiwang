@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.example.base.BaseActivity;
 import com.example.base.Constant;
 import com.example.bean.MessageWaper;
+import com.example.utils.ChooseDeviceDialog;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -26,8 +27,7 @@ public class AddDeviceActivity extends BaseActivity {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-        Intent intent = new Intent(getApplication(), CaptureActivity.class);
-        startActivityForResult(intent, REQUEST_CODE);
+
     }
 
     @Override
