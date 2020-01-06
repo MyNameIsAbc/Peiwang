@@ -29,8 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddDeviceActivity"
-            android:launchMode="singleTop" />
+            android:name=".AddDeviceActivity" />
         <activity
             android:name=".PeiWangActivity"
             android:launchMode="singleTop" />

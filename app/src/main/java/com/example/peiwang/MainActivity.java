@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity {
         Acp.getInstance(this).request(new AcpOptions.Builder()
                         .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE
                                 , Manifest.permission.READ_PHONE_STATE, Manifest.permission.CAMERA
-                        , Manifest.permission.ACCESS_COARSE_LOCATION)
+                                , Manifest.permission.ACCESS_COARSE_LOCATION)
                         .setDeniedMessage("需要权限启动")
                         /*以下为自定义提示语、按钮文字
                         .setDeniedMessage()
@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity {
                         .build(),
                 new AcpListener() {
                     @Override
-                    public void onGranted(){
+                    public void onGranted() {
                     }
 
                     @Override
@@ -143,6 +143,9 @@ public class MainActivity extends BaseActivity {
 
                 Drawable drawableSecond = getResources().getDrawable(R.mipmap.cgt_tabbar_me_nor_1);
                 mainNaviContact.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableSecond, null, null);//只放上面
+
+                mainNaviMsgRecords.setChecked(true);
+                mainNaviContact.setChecked(false);
                 break;
             case 1:
                 //点击第一个radiobutton,显示viewpager的第一页
@@ -153,6 +156,9 @@ public class MainActivity extends BaseActivity {
 
                 Drawable drawableSecond2 = getResources().getDrawable(R.mipmap.cgt_tabbar_me_sel_1);
                 mainNaviContact.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawableSecond2, null, null);//只放上面
+
+                mainNaviMsgRecords.setChecked(false);
+                mainNaviContact.setChecked(true);
                 break;
         }
     }
@@ -166,12 +172,10 @@ public class MainActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.main_navi_msg_records:
-                mainNaviMsgRecords.setChecked(true);
-                mainNaviContact.setChecked(false);
+                switchFragment(0);
                 break;
             case R.id.main_navi_contact:
-                mainNaviMsgRecords.setChecked(false);
-                mainNaviContact.setChecked(true);
+                switchFragment(1);
                 break;
         }
     }
@@ -185,9 +189,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void setSize(RadioButton rb){
-        Rect rect=new Rect();
-        rect.set(0,0,60,60);    //距离父窗体的距离，可以理解为左上和右下的坐标
+    private void setSize(RadioButton rb) {
+        Rect rect = new Rect();
+        rect.set(0, 0, 60, 60);    //距离父窗体的距离，可以理解为左上和右下的坐标
         Drawable[] drawables = rb.getCompoundDrawables();
         drawables[1].setBounds(rect);  //取出上边的图片设置大小
         rb.setCompoundDrawables(null, drawables[1], null, null);  //把这张图片放在上边，这四个参表示图片放在左、上、有、下

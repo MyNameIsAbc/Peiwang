@@ -158,7 +158,9 @@ public class PeiWangActivity extends BaseActivity {
                     if(isWifiConnected){
                         Log.i("MainActivity","WIFI is connected");
                         //do something
-                        etId.setText(new WifiUtils(PeiWangActivity.this).getWifiName());
+                        WifiUtils wifiUtils=new WifiUtils(PeiWangActivity.this);
+                        etId.setText(wifiUtils.getWifiName());
+                        ssid=wifiUtils.getWifiName();
                     } else {
                         Log.i("MainActivity","WIFI is disconnected");
                         //do another thing
