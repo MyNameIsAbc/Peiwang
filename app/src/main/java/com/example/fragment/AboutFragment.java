@@ -16,6 +16,7 @@ import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
 import com.example.utils.ChooseDeviceDialog;
 import com.example.utils.SystemUtils;
+import com.orhanobut.logger.Logger;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
 import butterknife.BindView;
@@ -69,7 +70,9 @@ public class AboutFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fragment_ll_add:
-                ChooseDeviceDialog chooseDeviceDialog=new ChooseDeviceDialog(getContext());
+                Logger.d("fragment_ll_add:");
+                ChooseDeviceDialog chooseDeviceDialog=new ChooseDeviceDialog(getActivity());
+                chooseDeviceDialog.setData(1);
                 chooseDeviceDialog.setListener(new ChooseDeviceDialog.OnSelectClickListener() {
                     @Override
                     public void onSelectClick(int selectType) {

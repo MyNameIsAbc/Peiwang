@@ -54,12 +54,10 @@ public class ChooseDeviceDialog extends Dialog {
             case 1:
                 rbMale.setChecked(true);
                 rbFemale.setChecked(false);
-
                 break;
             case 2:
                 rbMale.setChecked(false);
                 rbFemale.setChecked(true);
-
                 break;
             case 3:
                 rbMale.setChecked(false);
