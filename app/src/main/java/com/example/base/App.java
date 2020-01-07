@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
-
-import com.example.db.DaoManager;
 import com.example.db.LangDaoUtils;
 import com.example.db.Language;
 import com.example.peiwang.R;

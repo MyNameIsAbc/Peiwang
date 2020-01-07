@@ -57,6 +57,7 @@ public class PeiWangActivity extends BaseActivity {
     private List<String> list = new ArrayList<>();
     String ssid;
     NetworkConnectChangedReceiver networkConnectChangedReceiver = null;
+
     @Override
     protected int getContentViewId() {
         return R.layout.activity_peiwang;
@@ -64,14 +65,14 @@ public class PeiWangActivity extends BaseActivity {
 
     @Override
     protected void getUnbinder() {
-        List<ScanResult> wifiLists = WifiUtils.scanWifiInfo(this);
+
     }
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
         list.clear();
-         etId.setText(new WifiUtils(this).getWifiName());
+        etId.setText(new WifiUtils(this).getWifiName());
         tvTitle.setText("声波配网");
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
@@ -123,7 +124,7 @@ public class PeiWangActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.ll_return, R.id.tv_do, R.id.btn_start,R.id.peiwang_tv_change, R.id.peiwang_iv_show})
+    @OnClick({R.id.ll_return, R.id.tv_do, R.id.btn_start, R.id.peiwang_tv_change, R.id.peiwang_iv_show})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_return:
@@ -155,14 +156,14 @@ public class PeiWangActivity extends BaseActivity {
                 NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
                 if (networkInfo != null) {
                     boolean isWifiConnected = networkInfo.isConnected();
-                    if(isWifiConnected){
-                        Log.i("MainActivity","WIFI is connected");
+                    if (isWifiConnected) {
+                        Log.i("MainActivity", "WIFI is connected");
                         //do something
-                        WifiUtils wifiUtils=new WifiUtils(PeiWangActivity.this);
+                        WifiUtils wifiUtils = new WifiUtils(PeiWangActivity.this);
                         etId.setText(wifiUtils.getWifiName());
-                        ssid=wifiUtils.getWifiName();
+                        ssid = wifiUtils.getWifiName();
                     } else {
-                        Log.i("MainActivity","WIFI is disconnected");
+                        Log.i("MainActivity", "WIFI is disconnected");
                         //do another thing
                     }
                 }
