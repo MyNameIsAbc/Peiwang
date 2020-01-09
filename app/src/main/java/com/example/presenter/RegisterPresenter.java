@@ -1,13 +1,13 @@
 package com.example.presenter;
 
-import com.juren.CallBack.MvpCallback;
-import com.juren.bean.LoginFailBean;
-import com.juren.bean.LoginSuccessBean;
-import com.juren.bean.ValidateCodeBean;
-import com.juren.model.LoginModel;
-import com.juren.model.RegisterModel;
-import com.juren.view.RegisterView;
 
+import com.example.CallBack.MvpCallback;
+import com.example.bean.LoginFailBean;
+import com.example.bean.LoginSuccessBean;
+import com.example.bean.ValidateCodeBean;
+import com.example.model.LoginModel;
+import com.example.model.RegisterModel;
+import com.example.view.RegisterView;
 
 public class RegisterPresenter {
     private RegisterView mView;
@@ -40,32 +40,21 @@ public class RegisterPresenter {
 
     public void checkValidateCode(String code, final String phone, final String passward) {
         mView.showLoading();
-        RegisterModel.checkValidateCode(phone, code, new MvpCallback<ValidateCodeBean>() {
+        RegisterModel.register(phone, passward, new MvpCallback<ValidateCodeBean>() {
             @Override
             public void onSuccess(ValidateCodeBean validateCodeBean) {
-                RegisterModel.register(phone, passward, new MvpCallback<ValidateCodeBean>() {
+                LoginModel.Login(phone, passward, new MvpCallback<Object>() {
                     @Override
-                    public void onSuccess(ValidateCodeBean validateCodeBean) {
-                        LoginModel.Login(phone, passward, new MvpCallback<Object>() {
-                            @Override
-                            public void onSuccess(Object o) {
-                                LoginSuccessBean loginSuccessBean=(LoginSuccessBean)o;
-                                mView.showRegisterData(loginSuccessBean.getMsg());
-                                mView.hideLoading();
-                            }
-
-                            @Override
-                            public void onFailure(Object o) {
-                                LoginFailBean loginFailBean=(LoginFailBean)o;
-                                mView.showFailureMessage(loginFailBean.getMsg());
-                                mView.hideLoading();
-                            }
-                        });
+                    public void onSuccess(Object o) {
+                        LoginSuccessBean loginSuccessBean = (LoginSuccessBean) o;
+                        mView.showRegisterData(loginSuccessBean.getMsg());
+                        mView.hideLoading();
                     }
 
                     @Override
-                    public void onFailure(ValidateCodeBean validateCodeBean) {
-                        mView.showFailureMessage(validateCodeBean.getMsg());
+                    public void onFailure(Object o) {
+                        LoginFailBean loginFailBean = (LoginFailBean) o;
+                        mView.showFailureMessage(loginFailBean.getMsg());
                         mView.hideLoading();
                     }
                 });

@@ -12,10 +12,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.juren.base.BaseActivity;
-import com.juren.presenter.RegisterPresenter;
-import com.juren.utils.SharePreferencesUtils;
-import com.juren.view.RegisterView;
+
+import com.example.base.BaseActivity;
+import com.example.presenter.RegisterPresenter;
+import com.example.utils.SharePreferencesUtils;
+import com.example.view.RegisterView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -12,10 +12,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.juren.base.BaseActivity;
-import com.juren.presenter.ResetPresenter;
-import com.juren.utils.SharePreferencesUtils;
-import com.juren.view.ResetView;
+
+import com.example.base.BaseActivity;
+import com.example.presenter.ResetPresenter;
+import com.example.utils.SharePreferencesUtils;
+import com.example.view.ResetView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
