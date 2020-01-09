@@ -20,7 +20,6 @@
     <string name="fragment_about_peiwang_title">选择配网方式</string>
     <string name="fragment_about_peiwang_one">声波配网</string>
     <string name="fragment_about_peiwang_two">涂鸦配网</string>
-
     <string name="fragment_about_peiwang2_title">提示</string>
     <string name="fragment_about_peiwang2_message">添加家具设备，需要账号管理，请登录。</string>
     <string name="fragment_about_peiwang2_confirm">登陆</string>

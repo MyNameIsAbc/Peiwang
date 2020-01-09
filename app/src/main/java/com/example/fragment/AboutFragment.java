@@ -16,7 +16,6 @@ import com.example.base.App;
 import com.example.base.BaseFragment;
 import com.example.peiwang.AboutActivity;
 import com.example.peiwang.AddDeviceActivity;
-import com.example.peiwang.LoginActivity;
 import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
 import com.example.utils.ChooseDeviceDialog;
@@ -77,16 +76,16 @@ public class AboutFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.fragment_ll_add, R.id.fragment_ll_wifi, R.id.fragment_ll_heart,R.id.tv_login})
+    @OnClick({R.id.fragment_ll_add, R.id.fragment_ll_wifi, R.id.fragment_ll_heart})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fragment_ll_add:
                 BottomMenu.show((AppCompatActivity) getContext(),
-                        new String[]{getResources().getString(R.string.fragment_about_add_one),
-                                getResources().getString(R.string.fragment_about_add_two)}, new OnMenuItemClickListener() {
+                        new String[]{getResources().getString (R.string.fragment_about_add_one),
+                                getResources().getString (R.string.fragment_about_add_two)}, new OnMenuItemClickListener() {
                             @Override
                             public void onClick(String text, int index) {
-                                switch (index) {
+                                switch (index){
                                     case 0:
                                         gotoActivity(AddDeviceActivity.class);
                                         break;
@@ -96,31 +95,46 @@ public class AboutFragment extends BaseFragment {
                                         break;
                                 }
                             }
-                        }).setTitle(getResources().getString(R.string.fragment_about_add_title));
+                        }).setTitle(getResources().getString (R.string.fragment_about_add_title));
 
                 break;
             case R.id.fragment_ll_wifi:
                 BottomMenu.show((AppCompatActivity) getContext(),
-                        new String[]{getResources().getString(R.string.fragment_about_peiwang_one),
-                                getResources().getString(R.string.fragment_about_peiwang_two)}, new OnMenuItemClickListener() {
-                            @Override
-                            public void onClick(String text, int index) {
-                                switch (index) {
-                                    case 0:
-                                        gotoActivity(PeiWangActivity.class);
-                                        break;
-                                    case 1:
-                                        toast("点击了：" + index + "-------" + text);
-                                        break;
-                                }
-                            }
-                        }).setTitle(getResources().getString(R.string.fragment_about_peiwang_title));
+                        new String[]{getResources().getString (R.string.fragment_about_peiwang_one),
+                                getResources().getString (R.string.fragment_about_peiwang_two)}, new OnMenuItemClickListener() {
+                    @Override
+                    public void onClick(String text, int index) {
+                        switch (index){
+                            case 0:
+                                gotoActivity(PeiWangActivity.class);
+                                break;
+                            case 1:
+                                MessageDialog.build((AppCompatActivity) getContext())
+                                        .setTitle(getResources().getString (R.string.fragment_about_peiwang2_title))
+                                        .setMessage(getResources().getString (R.string.fragment_about_peiwang2_message))
+                                        .setOkButton(getResources().getString (R.string.fragment_about_peiwang2_confirm), new OnDialogButtonClickListener() {
+                                            @Override
+                                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                                toast("进入登陆画面");
+                                                return false;
+                                            }
+                                        })
+                                        .setCancelButton(getResources().getString (R.string.fragment_about_peiwang2_cancel),new OnDialogButtonClickListener() {
+                                            @Override
+                                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                                return false;
+                                            }
+                                        })
+                                        .show();
+                                break;
+                        }
+                    }
+                }).setTitle(getResources().getString (R.string.fragment_about_peiwang_title));
+
+//                gotoActivity(PeiWangActivity.class);
                 break;
             case R.id.fragment_ll_heart:
                 gotoActivity(AboutActivity.class);
-                break;
-            case R.id.tv_login:
-                gotoActivity(LoginActivity.class);
                 break;
         }
     }
