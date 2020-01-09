@@ -20,7 +20,9 @@ import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
 import com.example.utils.ChooseDeviceDialog;
 import com.example.utils.SystemUtils;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
+import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.BottomMenu;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.orhanobut.logger.Logger;
@@ -119,7 +121,23 @@ public class AboutFragment extends BaseFragment {
                                 gotoActivity(PeiWangActivity.class);
                                 break;
                             case 1:
-                                toast("点击了：" +index +"-------"+ text);
+                                MessageDialog.build((AppCompatActivity) getContext())
+                                        .setTitle(getResources().getString (R.string.fragment_about_peiwang2_title))
+                                        .setMessage(getResources().getString (R.string.fragment_about_peiwang2_message))
+                                        .setOkButton(getResources().getString (R.string.fragment_about_peiwang2_confirm), new OnDialogButtonClickListener() {
+                                            @Override
+                                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                                toast("进入登陆画面");
+                                                return false;
+                                            }
+                                        })
+                                        .setCancelButton(getResources().getString (R.string.fragment_about_peiwang2_cancel),new OnDialogButtonClickListener() {
+                                            @Override
+                                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                                return false;
+                                            }
+                                        })
+                                        .show();
                                 break;
                         }
                     }
