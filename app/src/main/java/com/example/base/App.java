@@ -13,6 +13,7 @@ import com.example.utils.AppUtils;
 import com.example.utils.LangService;
 import com.example.utils.SharePreferencesUtils;
 import com.example.utils.SystemUtils;
+import com.kongzue.dialog.util.DialogSettings;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -89,6 +90,9 @@ public class App extends MultiDexApplication {
         AppCode = SystemUtils.getVersionName(this) + "";
         TuyaHomeSdk.init(this);
         TuyaHomeSdk.setDebugMode(true);
+
+        initDialog(this);
+
     }
 
     protected void setupLeakCanary() {
@@ -97,5 +101,25 @@ public class App extends MultiDexApplication {
         }
         LeakCanary.install(this);
     }
+
+
+    /**
+     *  Kongzue Dialog V3  需要进行一些预先配置，诸如对话框组件整体的风格、主题和字体等
+     */
+    public static void  initDialog(Context context){
+
+        DialogSettings.init();                                        //初始化清空 BaseDialog 队列
+        DialogSettings.checkRenderscriptSupport(context);       //检查 Renderscript 兼容性，若设备不支持，DialogSettings.isUseBlur 会自动关闭；
+        DialogSettings.DEBUGMODE = true;                              //是否允许打印日志
+        DialogSettings.isUseBlur = true;                              //是否开启模糊效果，默认关闭
+        DialogSettings.autoShowInputKeyboard = true;                  //设置 InputDialog 是否自动弹出输入法
+        //DialogSettings.backgroundColor = Color.BLUE;
+        //DialogSettings.titleTextInfo = new TextInfo().setFontSize(50);
+        //DialogSettings.buttonPositiveTextInfo = new TextInfo().setFontColor(Color.GREEN);
+        DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;        //全局主题风格，提供三种可选风格，STYLE_MATERIAL, STYLE_KONGZUE, STYLE_IOS
+        DialogSettings.theme = DialogSettings.THEME.LIGHT;            //全局对话框明暗风格，提供两种可选主题，LIGHT, DARK
+
+    }
+
 
 }

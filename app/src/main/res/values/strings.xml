@@ -9,4 +9,15 @@
     <string name="activity_about_record">Copyright © 2011-2019 Tencet.All.Rights Reserved.</string>
     <string name="common_cancel">取消</string>
     <string name="common_certain">确定</string>
+
+
+    <!--  fragment_about_add  -->
+    <string name="fragment_about_add_title">选择添加方式</string>
+    <string name="fragment_about_add_one">扫描二维码</string>
+    <string name="fragment_about_add_two">添加蓝牙</string>
+
+    <!--  fragment_about_peiwang  -->
+    <string name="fragment_about_peiwang_title">选择配网方式</string>
+    <string name="fragment_about_peiwang_one">声波配网</string>
+    <string name="fragment_about_peiwang_two">涂鸦配网</string>
 </resources>

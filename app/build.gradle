@@ -14,6 +14,9 @@ android {
         ndk {
             abiFilters "armeabi-v7a"
         }
+
+        renderscriptTargetApi 14
+        renderscriptSupportModeEnabled true    // Enable RS support
     }
     buildTypes {
         release {
@@ -74,4 +77,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.12.3'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     implementation 'com.tuya.smart:tuyasmart:3.13.0-beta4'
+    //提示框
+    implementation 'com.kongzue.dialog_v3:dialog:3.1.7'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
 }

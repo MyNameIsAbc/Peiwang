@@ -2,11 +2,15 @@ package com.example.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.base.App;
 import com.example.base.BaseFragment;
@@ -16,6 +20,9 @@ import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
 import com.example.utils.ChooseDeviceDialog;
 import com.example.utils.SystemUtils;
+import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
+import com.kongzue.dialog.v3.BottomMenu;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.orhanobut.logger.Logger;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
@@ -52,6 +59,7 @@ public class AboutFragment extends BaseFragment {
     protected void initAllMembersView(Bundle savedInstanceState) {
         fragmentTvAppname.setText(App.Appname);
         fragmentTvAppversion.setText(App.AppCode);
+
     }
 
     @Override
@@ -70,21 +78,54 @@ public class AboutFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fragment_ll_add:
-                Logger.d("fragment_ll_add:");
-                ChooseDeviceDialog chooseDeviceDialog=new ChooseDeviceDialog(getActivity());
-                chooseDeviceDialog.setData(1);
-                chooseDeviceDialog.setListener(new ChooseDeviceDialog.OnSelectClickListener() {
-                    @Override
-                    public void onSelectClick(int selectType) {
-                        if (selectType==1){
-                            gotoActivity(AddDeviceActivity.class);
-                        }
-                    }
-                });
-                chooseDeviceDialog.show();
+//                Logger.d("fragment_ll_add:");
+//                ChooseDeviceDialog chooseDeviceDialog=new ChooseDeviceDialog(getActivity());
+//                chooseDeviceDialog.setData(1);
+//                chooseDeviceDialog.setListener(new ChooseDeviceDialog.OnSelectClickListener() {
+//                    @Override
+//                    public void onSelectClick(int selectType) {
+//                        if (selectType==1){
+//                            gotoActivity(AddDeviceActivity.class);
+//                        }
+//                    }
+//                });
+//                chooseDeviceDialog.show();
+                BottomMenu.show((AppCompatActivity) getContext(),
+                        new String[]{getResources().getString (R.string.fragment_about_add_one),
+                                getResources().getString (R.string.fragment_about_add_two)}, new OnMenuItemClickListener() {
+                            @Override
+                            public void onClick(String text, int index) {
+                                switch (index){
+                                    case 0:
+                                        gotoActivity(AddDeviceActivity.class);
+                                        break;
+                                    case 1:
+                                        Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+                                        startActivity(intent);
+                                        break;
+                                }
+                            }
+                        }).setTitle(getResources().getString (R.string.fragment_about_add_title));
+
                 break;
             case R.id.fragment_ll_wifi:
-                gotoActivity(PeiWangActivity.class);
+                BottomMenu.show((AppCompatActivity) getContext(),
+                        new String[]{getResources().getString (R.string.fragment_about_peiwang_one),
+                                getResources().getString (R.string.fragment_about_peiwang_two)}, new OnMenuItemClickListener() {
+                    @Override
+                    public void onClick(String text, int index) {
+                        switch (index){
+                            case 0:
+                                gotoActivity(PeiWangActivity.class);
+                                break;
+                            case 1:
+                                toast("点击了：" +index +"-------"+ text);
+                                break;
+                        }
+                    }
+                }).setTitle(getResources().getString (R.string.fragment_about_peiwang_title));
+
+//                gotoActivity(PeiWangActivity.class);
                 break;
             case R.id.fragment_ll_heart:
                 gotoActivity(AboutActivity.class);
@@ -98,5 +139,10 @@ public class AboutFragment extends BaseFragment {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
+    }
+
+
+    public void toast(final Object obj) {
+        Toast.makeText(getContext(), obj.toString(), Toast.LENGTH_SHORT).show();
     }
 }
