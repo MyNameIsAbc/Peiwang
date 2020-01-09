@@ -5,11 +5,12 @@
     android:layout_height="match_parent"
     android:layout_marginTop="20dp"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:gravity="center"
         android:background="@color/colorWhite"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
@@ -28,31 +29,45 @@
                 android:id="@+id/fragment_tv_appname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:text="Mr.xiao"/>
+                android:text="Mr.xiao"
+                android:textSize="25sp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/fragment_tv_appversion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="Version: 7.0.9"/>
+                android:text="Version: 7.0.9"
+                android:textSize="15sp" />
         </LinearLayout>
 
-      <View
-          android:layout_width="wrap_content"
-          android:layout_height="0dp"
-          android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="93dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginLeft="80dp"
+            android:background="@drawable/blue_react"
+            android:gravity="center"
+            android:text="登录"
+            android:textColor="#3699FF"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:visibility="gone"
-            android:src="@mipmap/ll_next_right_24px"/>
+            android:src="@mipmap/ll_next_right_24px"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -61,30 +76,32 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
         android:background="@color/colorWhite"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/settings_screenshot_48px"/>
+            android:src="@mipmap/settings_screenshot_48px" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="添加设备"/>
+            android:text="添加设备" />
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/ll_next_right_24px"/>
+            android:src="@mipmap/ll_next_right_24px" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,30 +109,32 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
         android:background="@color/colorWhite"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/settings_search_48px"/>
+            android:src="@mipmap/settings_search_48px" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="配网 (Wifi版)"/>
+            android:text="配网 (Wifi版)" />
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/ll_next_right_24px"/>
+            android:src="@mipmap/ll_next_right_24px" />
 
     </LinearLayout>
 
@@ -124,33 +143,34 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
         android:background="@color/colorWhite"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/settings_about_48px"/>
+            android:src="@mipmap/settings_about_48px" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="关于我们"/>
+            android:text="关于我们" />
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/ll_next_right_24px"/>
+            android:src="@mipmap/ll_next_right_24px" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

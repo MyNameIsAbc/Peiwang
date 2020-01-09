@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,15 +15,11 @@ import com.example.base.App;
 import com.example.base.BaseFragment;
 import com.example.peiwang.AboutActivity;
 import com.example.peiwang.AddDeviceActivity;
+import com.example.peiwang.LoginActivity;
 import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
-import com.example.utils.ChooseDeviceDialog;
-import com.example.utils.SystemUtils;
 import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
 import com.kongzue.dialog.v3.BottomMenu;
-import com.kongzue.dialog.v3.MessageDialog;
-import com.orhanobut.logger.Logger;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +39,9 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.fragment_tv_appversion)
     TextView fragmentTvAppversion;
     Unbinder unbinder;
+    @BindView(R.id.tv_login)
+    TextView tvLogin;
+
 
     @Override
     public int getContentViewId() {
@@ -74,28 +72,16 @@ public class AboutFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.fragment_ll_add, R.id.fragment_ll_wifi, R.id.fragment_ll_heart})
+    @OnClick({R.id.fragment_ll_add, R.id.fragment_ll_wifi, R.id.fragment_ll_heart,R.id.tv_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fragment_ll_add:
-//                Logger.d("fragment_ll_add:");
-//                ChooseDeviceDialog chooseDeviceDialog=new ChooseDeviceDialog(getActivity());
-//                chooseDeviceDialog.setData(1);
-//                chooseDeviceDialog.setListener(new ChooseDeviceDialog.OnSelectClickListener() {
-//                    @Override
-//                    public void onSelectClick(int selectType) {
-//                        if (selectType==1){
-//                            gotoActivity(AddDeviceActivity.class);
-//                        }
-//                    }
-//                });
-//                chooseDeviceDialog.show();
                 BottomMenu.show((AppCompatActivity) getContext(),
-                        new String[]{getResources().getString (R.string.fragment_about_add_one),
-                                getResources().getString (R.string.fragment_about_add_two)}, new OnMenuItemClickListener() {
+                        new String[]{getResources().getString(R.string.fragment_about_add_one),
+                                getResources().getString(R.string.fragment_about_add_two)}, new OnMenuItemClickListener() {
                             @Override
                             public void onClick(String text, int index) {
-                                switch (index){
+                                switch (index) {
                                     case 0:
                                         gotoActivity(AddDeviceActivity.class);
                                         break;
@@ -105,30 +91,31 @@ public class AboutFragment extends BaseFragment {
                                         break;
                                 }
                             }
-                        }).setTitle(getResources().getString (R.string.fragment_about_add_title));
+                        }).setTitle(getResources().getString(R.string.fragment_about_add_title));
 
                 break;
             case R.id.fragment_ll_wifi:
                 BottomMenu.show((AppCompatActivity) getContext(),
-                        new String[]{getResources().getString (R.string.fragment_about_peiwang_one),
-                                getResources().getString (R.string.fragment_about_peiwang_two)}, new OnMenuItemClickListener() {
-                    @Override
-                    public void onClick(String text, int index) {
-                        switch (index){
-                            case 0:
-                                gotoActivity(PeiWangActivity.class);
-                                break;
-                            case 1:
-                                toast("点击了：" +index +"-------"+ text);
-                                break;
-                        }
-                    }
-                }).setTitle(getResources().getString (R.string.fragment_about_peiwang_title));
-
-//                gotoActivity(PeiWangActivity.class);
+                        new String[]{getResources().getString(R.string.fragment_about_peiwang_one),
+                                getResources().getString(R.string.fragment_about_peiwang_two)}, new OnMenuItemClickListener() {
+                            @Override
+                            public void onClick(String text, int index) {
+                                switch (index) {
+                                    case 0:
+                                        gotoActivity(PeiWangActivity.class);
+                                        break;
+                                    case 1:
+                                        toast("点击了：" + index + "-------" + text);
+                                        break;
+                                }
+                            }
+                        }).setTitle(getResources().getString(R.string.fragment_about_peiwang_title));
                 break;
             case R.id.fragment_ll_heart:
                 gotoActivity(AboutActivity.class);
+                break;
+            case R.id.tv_login:
+                gotoActivity(LoginActivity.class);
                 break;
         }
     }

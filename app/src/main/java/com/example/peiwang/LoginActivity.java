@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 
 import com.example.base.BaseActivity;
+import com.example.bean.LoginSuccessBean;
 import com.example.presenter.LoginPresenter;
 import com.example.utils.SharePreferencesUtils;
 import com.example.view.MvpView;
@@ -85,7 +86,7 @@ public class LoginActivity extends BaseActivity implements MvpView {
                 break;
             case R.id.bt_login:
                 if (checkValidity()) {
-                    loginPresenter.getData(userName, userPwd);
+                    loginPresenter.login(userName, userPwd);
                 }
                 break;
             case R.id.tv_vcode_login:
@@ -97,19 +98,9 @@ public class LoginActivity extends BaseActivity implements MvpView {
         }
     }
 
-    @Override
-    public void showData(String data) {
-        showToast(data);
-        gotoActivity(MainActivity.class);
-        SharePreferencesUtils.setString(getApplicationContext(), "phone", userName);
-        SharePreferencesUtils.setString(getApplicationContext(), "passward", userPwd);
-        finish();
-    }
 
-    @Override
-    public void showFailureMessage(String msg) {
-        showToast(msg);
-    }
+
+
 
     private boolean checkValidity() {
         getUserInfo();
@@ -143,5 +134,20 @@ public class LoginActivity extends BaseActivity implements MvpView {
     private void getUserInfo() {
         userName = etLoginPhone.getText().toString().trim();
         userPwd = etLoginPassword.getText().toString().trim();
+    }
+
+    @Override
+    public void getData(Object data) {
+        LoginSuccessBean loginSuccessBean=(LoginSuccessBean)data;
+        gotoActivity(MainActivity.class);
+        SharePreferencesUtils.setString(getApplicationContext(), "accesstoken", loginSuccessBean.getData().getToken());
+        SharePreferencesUtils.setString(getApplicationContext(), "phone", userName);
+        SharePreferencesUtils.setString(getApplicationContext(), "passward", userPwd);
+        finish();
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        showToast(msg);
     }
 }

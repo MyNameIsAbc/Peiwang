@@ -18,7 +18,7 @@ public interface RegisterView {
      * 当数据请求失败后，调用此接口提示
      * @param msg 失败原因
      */
-    void showFailureMessage(String msg);
+    void showMessage(String msg);
 
-    void showRegisterData(String data);
+    void showRegisterData(Object data);
 }

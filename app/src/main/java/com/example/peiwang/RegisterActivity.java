@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 
 import com.example.base.BaseActivity;
+import com.example.bean.LoginSuccessBean;
 import com.example.presenter.RegisterPresenter;
 import com.example.utils.SharePreferencesUtils;
 import com.example.view.RegisterView;
@@ -81,6 +82,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
                     Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
                     etLoginPhone.startAnimation(shake);
                     vibrator.vibrate(300);
+                    return;
                 }
                 timer.start();
                 tvGetVcode.setClickable(false);
@@ -88,7 +90,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
                 break;
             case R.id.bt_login:
                 if (checkValidity()) {
-                    registerPresenter.checkValidateCode(userVercode, userName, userPwd);
+                    registerPresenter.register(userName,userVercode, userPwd);
                 }
                 break;
         }
@@ -100,15 +102,21 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
     }
 
     @Override
-    public void showFailureMessage(String msg) {
+    public void showMessage(String msg) {
         showToast(msg);
     }
 
     @Override
-    public void showRegisterData(String data) {
+    public void showRegisterData(Object data) {
+
+        LoginSuccessBean loginSuccessBean=(LoginSuccessBean)data;
+        SharePreferencesUtils.setString(getApplicationContext(), "accesstoken", loginSuccessBean.getData().getToken());
+        SharePreferencesUtils.setString(getApplicationContext(), "phone", userName);
         SharePreferencesUtils.setString(this, "phone", userName);
         SharePreferencesUtils.setString(this, "passward", userPwd);
+        finish();
     }
+
 
     private boolean checkValidity() {
         getUserInfo();
@@ -153,7 +161,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
         userVercode = etRegisterVcode.getText().toString().trim();
     }
 
-    CountDownTimer timer = new CountDownTimer(60 * 1000, 1000) {
+    CountDownTimer timer = new CountDownTimer(120 * 1000, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             tvGetVcode.setText("还剩" + millisUntilFinished / 1000 + "秒");

@@ -94,16 +94,7 @@ public class RestPwdActivity extends BaseActivity implements ResetView {
         }
     }
 
-    @Override
-    public void showData(String data) {
-        showToast(data);
 
-    }
-
-    @Override
-    public void showFailureMessage(String msg) {
-        showToast(msg);
-    }
 
     private boolean checkValidity() {
         getUserInfo();
@@ -199,4 +190,14 @@ public class RestPwdActivity extends BaseActivity implements ResetView {
             tvGetVcode.setClickable(true);
         }
     };
+
+    @Override
+    public void getData(Object data) {
+
+    }
+
+    @Override
+    public void showMessage(String msg) {
+
+    }
 }

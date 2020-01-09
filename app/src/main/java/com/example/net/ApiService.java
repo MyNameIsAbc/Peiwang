@@ -1,6 +1,7 @@
 package com.example.net;
 
 
+import com.example.bean.LoginSuccessBean;
 import com.example.bean.ShengboBean;
 import com.example.bean.StatusBean;
 import com.example.bean.ValidateCodeBean;
@@ -12,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -44,21 +46,22 @@ public interface ApiService {
                                           @Field("from") String from, @Field("to") String to, @Field("auto") int auto);
     @FormUrlEncoded
     @POST("jachat/login")
-    Observable<String>login(@Query("password") String password, @Query("telephone") String username);
+    Observable<String>login(@Field("telephone") String username,@Field("password") String password);
 
     @FormUrlEncoded
     @POST("jachat/login")
-    Observable<String>loginCode(@Query("password") String password, @Query("telephone") String username);
+    Observable<String>loginCode(@Field("telephone") String telephone, @Field("code") String code);
 
     @GET("api/getValidateCode")
     Observable<ValidateCodeBean> getValidateCode(@Query("telephone") String telephone);
 
-    @GET("user/register")
-    Observable<ValidateCodeBean>register(@Query("telephone") String telephone, @Query("password") String password);
+    @FormUrlEncoded
+    @POST("jachat/register")
+    Observable<LoginSuccessBean>register(@Field("telephone") String telephone, @Field("password") String password, @Field("code")String code);
 
     @GET("user/findPassword")
     Observable<ValidateCodeBean>resetPassward(@Query("password") String password, @Query("username") String username,
-                                        @Query("code") String code);
+                                              @Query("code") String code);
 
     @POST("jachat/visitorLogin")
     Observable<VisitorBean>visitLogin();

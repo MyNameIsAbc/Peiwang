@@ -1,13 +1,11 @@
 package com.example.bean;
 
-public class LoginSuccessBean {
-
-
+public class RegisterBean {
     /**
      * success : 1
      * code : 1001
      * msg : Operation Success
-     * data : {"token":"c48a4298-eea2-46eb-a2c7-c4bc60e33e16","t":1578560947999,"expire":3600,"uid":4,"telephone":"13713382371","email":null,"username":null,"type":1}
+     * data : {"token":"5d366b81-fc78-4e85-a45f-8f6a298d9dc3","t":1578560414560,"expire":3600,"uid":4,"telephone":"13713382371","email":null,"username":null,"type":1}
      */
 
     private int success;
@@ -49,8 +47,8 @@ public class LoginSuccessBean {
 
     public static class DataBean {
         /**
-         * token : c48a4298-eea2-46eb-a2c7-c4bc60e33e16
-         * t : 1578560947999
+         * token : 5d366b81-fc78-4e85-a45f-8f6a298d9dc3
+         * t : 1578560414560
          * expire : 3600
          * uid : 4
          * telephone : 13713382371

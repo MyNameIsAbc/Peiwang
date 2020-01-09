@@ -38,7 +38,7 @@ public class RetrofitManager {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
                 public void log(String message) {
-                    Logger.d("OkHttp====Message:" + message);
+                    Logger.d("OkHttpMessage:" + message);
                 }
             });
             loggingInterceptor.setLevel(level);

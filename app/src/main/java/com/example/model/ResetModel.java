@@ -4,6 +4,8 @@ import com.example.CallBack.MvpCallback;
 import com.example.bean.ValidateCodeBean;
 import com.example.net.ApiService;
 import com.example.net.RetrofitManager;
+import com.example.utils.MD5Utils;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -15,7 +17,7 @@ public class ResetModel {
         RetrofitManager.getInstance().getRetrofit()
                 //动态代理创建GithubAPI对象
                 .create(ApiService.class)
-                .resetPassward(phone, passward, code)
+                .resetPassward(phone,  MD5Utils.stringToMD5(passward), code)
                 //指定上游发送事件线程
                 .subscribeOn(Schedulers.computation())
                 //指定下游接收事件线程
