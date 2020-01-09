@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+
 import com.example.db.LangDaoUtils;
 import com.example.db.Language;
 import com.example.peiwang.R;
@@ -26,6 +27,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
+import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.util.List;
@@ -83,8 +85,10 @@ public class App extends MultiDexApplication {
             Logger.d("language size:" + languages.size());
         }
         Bugly.init(getApplicationContext(), "205c860c87", true);
-        Appname= AppUtils.getAppName(this);
-        AppCode=SystemUtils.getVersionName(this)+"";
+        Appname = AppUtils.getAppName(this);
+        AppCode = SystemUtils.getVersionName(this) + "";
+        TuyaHomeSdk.init(this);
+        TuyaHomeSdk.setDebugMode(true);
     }
 
     protected void setupLeakCanary() {
@@ -93,6 +97,5 @@ public class App extends MultiDexApplication {
         }
         LeakCanary.install(this);
     }
-
 
 }

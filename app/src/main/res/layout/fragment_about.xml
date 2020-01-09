@@ -85,7 +85,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:src="@mipmap/ll_next_right_24px"/>
-
     </LinearLayout>
 
     <LinearLayout

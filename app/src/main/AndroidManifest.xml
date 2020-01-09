@@ -54,6 +54,17 @@
         </provider>
 
         <activity android:name=".AboutActivity"/>
+        <activity android:name=".LoginVercodeActivity"/>
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".RestPwdActivity"/>
+
+        <meta-data
+            android:name="TUYA_SMART_APPKEY"
+            android:value="phd3hdmrfs3mvajfg7uw" />
+        <meta-data
+            android:name="TUYA_SMART_SECRET"
+            android:value="srvdyatvpejsk4xf8gqy5deewepfen3k" />
 
     </application>
 

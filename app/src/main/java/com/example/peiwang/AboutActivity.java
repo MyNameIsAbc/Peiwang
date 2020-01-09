@@ -1,6 +1,7 @@
 package com.example.peiwang;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +54,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void disarmState() {
+        
 
     }
 
