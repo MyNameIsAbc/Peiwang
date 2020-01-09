@@ -4,6 +4,7 @@ package com.example.net;
 import com.example.bean.ShengboBean;
 import com.example.bean.StatusBean;
 import com.example.bean.ValidateCodeBean;
+import com.example.bean.VisitorBean;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -58,4 +59,7 @@ public interface ApiService {
     @GET("user/findPassword")
     Observable<ValidateCodeBean>resetPassward(@Query("password") String password, @Query("username") String username,
                                         @Query("code") String code);
+
+    @POST("jachat/visitorLogin")
+    Observable<VisitorBean>visitLogin();
 }
