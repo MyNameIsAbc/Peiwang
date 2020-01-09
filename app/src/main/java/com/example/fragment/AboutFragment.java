@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +19,15 @@ import com.example.peiwang.AddDeviceActivity;
 import com.example.peiwang.LoginActivity;
 import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
+import com.example.utils.ChooseDeviceDialog;
+import com.example.utils.SystemUtils;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
+import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.BottomMenu;
+import com.kongzue.dialog.v3.MessageDialog;
+import com.orhanobut.logger.Logger;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +47,6 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.fragment_tv_appversion)
     TextView fragmentTvAppversion;
     Unbinder unbinder;
-    @BindView(R.id.tv_login)
-    TextView tvLogin;
-
 
     @Override
     public int getContentViewId() {

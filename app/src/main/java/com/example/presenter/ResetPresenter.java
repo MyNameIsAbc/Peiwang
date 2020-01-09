@@ -36,7 +36,7 @@ public class ResetPresenter {
                     @Override
                     public void onFailure(Object o) {
                         LoginFailBean loginFailBean = (LoginFailBean) o;
-                        mView.showFailureMessage(loginFailBean.getMsg());
+                        mView.showMessage(loginFailBean.getMsg());
                         mView.hideLoading();
                     }
                 });
@@ -44,7 +44,7 @@ public class ResetPresenter {
 
             @Override
             public void onFailure(ValidateCodeBean validateCodeBean) {
-                mView.showFailureMessage(validateCodeBean.getMsg());
+                mView.showMessage(validateCodeBean.getMsg());
                 mView.hideLoading();
             }
         });
@@ -64,7 +64,7 @@ public class ResetPresenter {
 
             @Override
             public void onFailure(ValidateCodeBean validateCodeBean) {
-                mView.showFailureMessage(validateCodeBean.getMsg());
+                mView.showMessage(validateCodeBean.getMsg());
                 mView.hideLoading();
             }
         });
