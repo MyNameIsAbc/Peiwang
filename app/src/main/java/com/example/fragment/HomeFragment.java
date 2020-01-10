@@ -2,6 +2,8 @@ package com.example.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +30,8 @@ import com.example.peiwang.AddDeviceActivity;
 import com.example.peiwang.DeviceSettingActivity;
 import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
+import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
+import com.kongzue.dialog.v3.BottomMenu;
 import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -141,8 +145,25 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick(R.id.lin_tip)
     public void onViewClicked() {
-        Intent intent = new Intent(getActivity(), AddDeviceActivity.class);
-        getActivity().startActivity(intent);
+//        Intent intent = new Intent(getActivity(), AddDeviceActivity.class);
+//        getActivity().startActivity(intent);
+        BottomMenu.show((AppCompatActivity) getContext(),
+                new String[]{getResources().getString (R.string.fragment_about_add_one),
+                        getResources().getString (R.string.fragment_about_add_two)}, new OnMenuItemClickListener() {
+                    @Override
+                    public void onClick(String text, int index) {
+                        switch (index){
+                            case 0:
+                                gotoActivity(AddDeviceActivity.class);
+                                break;
+                            case 1:
+                                Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+                                startActivity(intent);
+                                break;
+                        }
+                    }
+                }).setTitle(getResources().getString (R.string.fragment_about_add_title)
+        );
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
