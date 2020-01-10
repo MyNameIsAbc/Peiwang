@@ -1,5 +1,6 @@
 package com.example.peiwang;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.TextUtils;
@@ -13,10 +14,17 @@ import android.widget.TextView;
 
 
 import com.example.base.BaseActivity;
+import com.example.base.Constant;
 import com.example.bean.LoginSuccessBean;
+import com.example.bean.MessageWaper;
 import com.example.presenter.LoginPresenter;
 import com.example.utils.SharePreferencesUtils;
 import com.example.view.MvpView;
+import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -139,15 +147,28 @@ public class LoginActivity extends BaseActivity implements MvpView {
     @Override
     public void getData(Object data) {
         LoginSuccessBean loginSuccessBean=(LoginSuccessBean)data;
-        gotoActivity(MainActivity.class);
+        Logger.d("LoginSuccessBean:"+loginSuccessBean.toString());
         SharePreferencesUtils.setString(getApplicationContext(), "accesstoken", loginSuccessBean.getData().getToken());
         SharePreferencesUtils.setString(getApplicationContext(), "phone", userName);
         SharePreferencesUtils.setString(getApplicationContext(), "passward", userPwd);
+        EventBus.getDefault().post(new MessageWaper(null, Constant.EVENT_LOGIN_SUCCESS));
         finish();
     }
 
     @Override
     public void showMessage(String msg) {
         showToast(msg);
+    }
+
+    public void initCountry(){
+        //获取 Locale  对象的正确姿势：
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = getResources().getConfiguration().getLocales().get(0);
+        } else {
+            locale = getResources().getConfiguration().locale;
+        }
+        String counrty=locale.getCountry();
+
     }
 }

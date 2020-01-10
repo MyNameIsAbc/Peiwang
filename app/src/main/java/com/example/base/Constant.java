@@ -24,7 +24,7 @@ public class Constant {
     public static final int EVENT_SET_MOTHER_LANGUAGE=1006;
     public static final int EVENT_SET_FOREIGN_LANGUAGE=1007;
 
-
+    public static final int EVENT_LOGIN_SUCCESS=1008;
 
     public static final int TEXT_TYPE_LNG_CHINESE_CN = 0x100001;
     public static final int TEXT_TYPE_LNG_CHINESE_TW = 0x100002;

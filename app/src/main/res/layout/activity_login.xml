@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_resetpwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,6 +37,11 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:src="@mipmap/user" />
+        <TextView
+            android:text="86"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <EditText
             android:id="@+id/et_login_phone"

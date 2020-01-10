@@ -65,4 +65,7 @@ public interface ApiService {
 
     @POST("jachat/visitorLogin")
     Observable<VisitorBean>visitLogin();
+
+    @POST("tuya/getToken")
+    Observable<String>getTuYaToken(@Header("access_token")String accesstoken);
 }

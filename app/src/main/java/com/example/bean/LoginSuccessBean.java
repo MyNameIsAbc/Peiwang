@@ -131,5 +131,29 @@ public class LoginSuccessBean {
         public void setType(int type) {
             this.type = type;
         }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "token='" + token + '\'' +
+                    ", t=" + t +
+                    ", expire=" + expire +
+                    ", uid=" + uid +
+                    ", telephone='" + telephone + '\'' +
+                    ", email=" + email +
+                    ", username=" + username +
+                    ", type=" + type +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "LoginSuccessBean{" +
+                "success=" + success +
+                ", code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

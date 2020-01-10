@@ -14,10 +14,14 @@ import android.widget.TextView;
 
 
 import com.example.base.BaseActivity;
+import com.example.base.Constant;
 import com.example.bean.LoginSuccessBean;
+import com.example.bean.MessageWaper;
 import com.example.presenter.RegisterPresenter;
 import com.example.utils.SharePreferencesUtils;
 import com.example.view.RegisterView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,7 +112,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
 
     @Override
     public void showRegisterData(Object data) {
-
+        EventBus.getDefault().post(new MessageWaper(null, Constant.EVENT_LOGIN_SUCCESS));
         LoginSuccessBean loginSuccessBean=(LoginSuccessBean)data;
         SharePreferencesUtils.setString(getApplicationContext(), "accesstoken", loginSuccessBean.getData().getToken());
         SharePreferencesUtils.setString(getApplicationContext(), "phone", userName);

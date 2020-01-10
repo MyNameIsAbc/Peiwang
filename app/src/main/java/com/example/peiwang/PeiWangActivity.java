@@ -23,6 +23,7 @@ import com.example.bean.ShengboBean;
 import com.example.net.ApiService;
 import com.example.net.RetrofitManager;
 import com.example.utils.MediaPlayerUtils;
+import com.example.utils.SharePreferencesUtils;
 import com.example.utils.WifiUtils;
 import com.orhanobut.logger.Logger;
 
@@ -57,6 +58,7 @@ public class PeiWangActivity extends BaseActivity {
     private List<String> list = new ArrayList<>();
     String ssid;
     NetworkConnectChangedReceiver networkConnectChangedReceiver = null;
+    int type;
 
     @Override
     protected int getContentViewId() {
@@ -71,14 +73,19 @@ public class PeiWangActivity extends BaseActivity {
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+        type = getIntent().getIntExtra("type", -1);
         list.clear();
         etId.setText(new WifiUtils(this).getWifiName());
-        tvTitle.setText("声波配网");
+        if (type == 1)
+            tvTitle.setText("声波配网");
+        else
+            tvTitle.setText("涂鸦配网");
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         networkConnectChangedReceiver = new NetworkConnectChangedReceiver();
         registerReceiver(networkConnectChangedReceiver, filter);
+
     }
 
     @Override
@@ -89,39 +96,73 @@ public class PeiWangActivity extends BaseActivity {
 
     public void startPeiWang(String ssid, String passward) {
         showLoading();
-        RetrofitManager.getInstance().getRetrofit()
-                //动态代理创建GithubAPI对象
-                .create(ApiService.class)
-                .peiWang(ssid, passward)
-                //指定上游发送事件线程
-                .subscribeOn(Schedulers.computation())
-                //指定下游接收事件线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ShengboBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        if (type == 1) {
+            RetrofitManager.getInstance().getRetrofit()
+                    //动态代理创建GithubAPI对象
+                    .create(ApiService.class)
+                    .peiWang(ssid, passward)
+                    //指定上游发送事件线程
+                    .subscribeOn(Schedulers.computation())
+                    //指定下游接收事件线程
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ShengboBean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNext(ShengboBean s) {
-                        hideLoading();
-                        Logger.d("peiwnag :" + s.toString());
-                        MediaPlayerUtils.getInstance().startPlay(s.getData());
-                    }
+                        @Override
+                        public void onNext(ShengboBean s) {
+                            hideLoading();
+                            Logger.d("peiwnag :" + s.toString());
+                            MediaPlayerUtils.getInstance().startPlay(s.getData());
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        hideLoading();
-                        Logger.d("peiwnag :" + e.toString());
-                        Logger.d("onError:" + e.getMessage());
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            hideLoading();
+                            Logger.d("peiwnag :" + e.toString());
+                            Logger.d("onError:" + e.getMessage());
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onComplete() {
 
-                    }
-                });
+                        }
+                    });
+        } else {
+            RetrofitManager.getInstance().getRetrofit()
+                    //动态代理创建GithubAPI对象
+                    .create(ApiService.class)
+                    .getTuYaToken(SharePreferencesUtils.getString(this, "accesstoken", ""))
+                    //指定上游发送事件线程
+                    .subscribeOn(Schedulers.computation())
+                    //指定下游接收事件线程
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<String>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(String s) {
+                            hideLoading();
+                            Logger.d("tuYaToken:" + s);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            hideLoading();
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        }
+
     }
 
     @OnClick({R.id.ll_return, R.id.tv_do, R.id.btn_start, R.id.peiwang_tv_change, R.id.peiwang_iv_show})
