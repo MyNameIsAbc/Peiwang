@@ -6,11 +6,16 @@ import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.example.bean.TuYaTokenBean;
+import com.example.bean.TuyaInfoBean;
 import com.example.db.LangDaoUtils;
 import com.example.db.Language;
+import com.example.net.ApiService;
+import com.example.net.RetrofitManager;
 import com.example.peiwang.R;
 import com.example.utils.AppUtils;
 import com.example.utils.LangService;
+import com.example.utils.MD5Utils;
 import com.example.utils.SharePreferencesUtils;
 import com.example.utils.SystemUtils;
 import com.kongzue.dialog.util.DialogSettings;
@@ -18,6 +23,8 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.sahooz.library.Country;
+import com.sahooz.library.ExceptionCallback;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -29,9 +36,19 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
+import com.tuya.smart.sdk.api.INeedLoginListener;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class App extends MultiDexApplication {
@@ -42,7 +59,8 @@ public class App extends MultiDexApplication {
     }
 
     public static String Appname, AppCode;
-
+    public static List<Country> countries = new ArrayList<>();
+    public static TuyaInfoBean tuyaInfoBean;
     static {
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
@@ -81,7 +99,6 @@ public class App extends MultiDexApplication {
         } else {
             List<Language> languages = new LangDaoUtils(this).queryAllDevice();
             for (Language l : languages) {
-                Logger.d("stored language:" + l.toString());
             }
             Logger.d("language size:" + languages.size());
         }
@@ -93,6 +110,58 @@ public class App extends MultiDexApplication {
 
         initDialog(this);
 
+        countries.clear();
+        countries.addAll(Country.getAll(this, new ExceptionCallback() {
+            @Override
+            public void onIOException(IOException e) {
+
+            }
+
+            @Override
+            public void onJSONException(JSONException e) {
+
+            }
+        }));
+
+        TuyaHomeSdk.setOnNeedLoginListener(new INeedLoginListener() {
+            @Override
+            public void onNeedLogin(Context context) {
+                Logger.d("needLogin:");
+            }
+        });
+    }
+
+    private void LoginTuya() {
+        RetrofitManager.getInstance().getRetrofit()
+                //动态代理创建GithubAPI对象
+                .create(ApiService.class)
+                .getTuyaClientInfo(SharePreferencesUtils.getString(getApplicationContext(), "accesstoken", ""))
+                //指定上游发送事件线程
+                .subscribeOn(Schedulers.computation())
+                //指定下游接收事件线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<TuyaInfoBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(TuyaInfoBean s) {
+                        Logger.d("getTuyaClientInfo:"+s);
+                        tuyaInfoBean=s;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     protected void setupLeakCanary() {
@@ -104,12 +173,12 @@ public class App extends MultiDexApplication {
 
 
     /**
-     *  Kongzue Dialog V3  需要进行一些预先配置，诸如对话框组件整体的风格、主题和字体等
+     * Kongzue Dialog V3  需要进行一些预先配置，诸如对话框组件整体的风格、主题和字体等
      */
-    public static void  initDialog(Context context){
+    public static void initDialog(Context context) {
 
         DialogSettings.init();                                        //初始化清空 BaseDialog 队列
-        DialogSettings.checkRenderscriptSupport(context);       //检查 Renderscript 兼容性，若设备不支持，DialogSettings.isUseBlur 会自动关闭；
+        DialogSettings.checkRenderscriptSupport(context);             //检查 Renderscript 兼容性，若设备不支持，DialogSettings.isUseBlur 会自动关闭；
         DialogSettings.DEBUGMODE = true;                              //是否允许打印日志
         DialogSettings.isUseBlur = true;                              //是否开启模糊效果，默认关闭
         DialogSettings.autoShowInputKeyboard = true;                  //设置 InputDialog 是否自动弹出输入法

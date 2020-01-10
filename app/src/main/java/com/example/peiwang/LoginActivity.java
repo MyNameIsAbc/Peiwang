@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.base.App;
 import com.example.base.BaseActivity;
 import com.example.base.Constant;
 import com.example.bean.LoginSuccessBean;
@@ -27,6 +29,9 @@ import com.orhanobut.logger.Logger;
 import com.sahooz.library.Country;
 import com.sahooz.library.ExceptionCallback;
 import com.sahooz.library.PickActivity;
+import com.tuya.smart.android.user.api.ILoginCallback;
+import com.tuya.smart.android.user.bean.User;
+import com.tuya.smart.home.sdk.TuyaHomeSdk;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -39,6 +44,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.example.base.App.countries;
 
 public class LoginActivity extends BaseActivity implements MvpView {
 
@@ -98,6 +105,7 @@ public class LoginActivity extends BaseActivity implements MvpView {
         if (!TextUtils.isEmpty(userPwd)) {
             etLoginPassword.setText(userPwd);
         }
+        initCountry();
     }
 
     @Override
@@ -113,7 +121,8 @@ public class LoginActivity extends BaseActivity implements MvpView {
                 break;
             case R.id.bt_login:
                 if (checkValidity()) {
-                    loginPresenter.login(userName, userPwd);
+                    loginPresenter.login( tvCountryCode.getText()+"-"+userName, userPwd);
+
                 }
                 break;
             case R.id.tv_vcode_login:
@@ -159,7 +168,7 @@ public class LoginActivity extends BaseActivity implements MvpView {
     }
 
     private void getUserInfo() {
-        userName = etLoginPhone.getText().toString().trim();
+        userName =etLoginPhone.getText().toString().trim();
         userPwd = etLoginPassword.getText().toString().trim();
     }
 
@@ -171,6 +180,18 @@ public class LoginActivity extends BaseActivity implements MvpView {
         SharePreferencesUtils.setString(getApplicationContext(), "phone", userName);
         SharePreferencesUtils.setString(getApplicationContext(), "passward", userPwd);
         EventBus.getDefault().post(new MessageWaper(null, Constant.EVENT_LOGIN_SUCCESS));
+        //uid登陆
+//        TuyaHomeSdk.getUserInstance().loginOrRegisterWithUid(tvCountryCode.getText().toString(), App.tuyaInfoBean.getData().getUid(), App.tuyaInfoBean.getData().getPassword(), new ILoginCallback() {
+//            @Override
+//            public void onSuccess(User user) {
+//                Toast.makeText(LoginActivity.this, "登录成功，用户名：" , Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onError(String code, String error) {
+//                Toast.makeText(LoginActivity.this, "code: " + code + "error:" + error, Toast.LENGTH_SHORT).show();
+//            }
+//        });
         finish();
     }
 
@@ -188,19 +209,7 @@ public class LoginActivity extends BaseActivity implements MvpView {
             locale = getResources().getConfiguration().locale;
         }
         String counrty = locale.getCountry();
-        List<Country> countries = new ArrayList<>();
-        countries.clear();
-        countries.addAll(Country.getAll(this, new ExceptionCallback() {
-            @Override
-            public void onIOException(IOException e) {
 
-            }
-
-            @Override
-            public void onJSONException(JSONException e) {
-
-            }
-        }));
         for (Country c:countries) {
             if (c.locale.equalsIgnoreCase(counrty)){
                 ivCountry.setImageResource(c.flag);

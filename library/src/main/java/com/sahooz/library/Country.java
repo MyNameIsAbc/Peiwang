@@ -95,8 +95,7 @@ public class Country implements PyEntity {
 
     private static String getKey(Context ctx) {
         String country = ctx.getResources().getConfiguration().locale.getCountry();
-        return "CN".equalsIgnoreCase(country)? "zh"
-                : "TW".equalsIgnoreCase(country)? "tw"
+        return "CN".equalsIgnoreCase(country)? "zh" : "TW".equalsIgnoreCase(country)? "tw"
                 : "HK".equalsIgnoreCase(country)? "tw"
                 : "en";
     }

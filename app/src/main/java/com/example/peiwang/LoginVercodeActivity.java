@@ -1,14 +1,19 @@
 package com.example.peiwang;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,12 +24,18 @@ import com.example.bean.MessageWaper;
 import com.example.presenter.LoginPresenter;
 import com.example.utils.SharePreferencesUtils;
 import com.example.view.MvpView;
+import com.sahooz.library.Country;
+import com.sahooz.library.PickActivity;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.example.base.App.countries;
 
 
 public class LoginVercodeActivity extends BaseActivity implements MvpView {
@@ -44,6 +55,16 @@ public class LoginVercodeActivity extends BaseActivity implements MvpView {
     TextView tvVcodeLogin;
     @BindView(R.id.tv_register)
     TextView tvRegister;
+    @BindView(R.id.tv_country)
+    TextView tvCountry;
+    @BindView(R.id.tv_country_code)
+    TextView tvCountryCode;
+    @BindView(R.id.iv_select_country)
+    ImageView ivSelectCountry;
+    @BindView(R.id.iv_country)
+    ImageView ivCountry;
+    @BindView(R.id.ll_login_country)
+    ConstraintLayout llLoginCountry;
 
     private String userName = "";
     private String userVercode = "";
@@ -70,7 +91,7 @@ public class LoginVercodeActivity extends BaseActivity implements MvpView {
         if (!TextUtils.isEmpty(userName)) {
             etLoginPhone.setText(userName);
         }
-
+        initCountry();
     }
 
     @Override
@@ -79,11 +100,11 @@ public class LoginVercodeActivity extends BaseActivity implements MvpView {
     }
 
 
-    @OnClick({R.id.tv_getVcode, R.id.bt_login, R.id.tv_vcode_login, R.id.tv_register})
+    @OnClick({R.id.tv_getVcode, R.id.bt_login, R.id.tv_vcode_login, R.id.tv_register,R.id.ll_login_country})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_getVcode:
-                if (checkValidityPhone()){
+                if (checkValidityPhone()) {
                     timer.start();
                     tvGetVcode.setClickable(false);
                     loginPresenter.getVocode(userName);
@@ -92,15 +113,16 @@ public class LoginVercodeActivity extends BaseActivity implements MvpView {
             case R.id.bt_login:
             case R.id.tv_vcode_login:
                 if (checkValidity())
-                    loginPresenter.loginVocode(userName,userVercode);
+                    loginPresenter.loginVocode(tvCountryCode.getText()+"-"+userName, userVercode);
                 break;
             case R.id.tv_register:
                 gotoActivity(RegisterActivity.class);
                 break;
+            case R.id.ll_login_country:
+                startActivityForResult(new Intent(getApplicationContext(), PickActivity.class), 111);
+                break;
         }
     }
-
-
 
 
     private void getUserInfo() {
@@ -160,7 +182,7 @@ public class LoginVercodeActivity extends BaseActivity implements MvpView {
     @Override
     public void getData(Object data) {
         EventBus.getDefault().post(new MessageWaper(null, Constant.EVENT_LOGIN_SUCCESS));
-        LoginSuccessBean loginSuccessBean=(LoginSuccessBean)data;
+        LoginSuccessBean loginSuccessBean = (LoginSuccessBean) data;
         SharePreferencesUtils.setString(getApplicationContext(), "accesstoken", loginSuccessBean.getData().getToken());
         SharePreferencesUtils.setString(getApplicationContext(), "phone", userName);
         finish();
@@ -169,5 +191,37 @@ public class LoginVercodeActivity extends BaseActivity implements MvpView {
     @Override
     public void showMessage(String msg) {
         showToast(msg);
+    }
+
+
+    public void initCountry() {
+        //获取 Locale  对象的正确姿势：
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = getResources().getConfiguration().getLocales().get(0);
+        } else {
+            locale = getResources().getConfiguration().locale;
+        }
+        String counrty = locale.getCountry();
+
+        for (Country c:countries) {
+            if (c.locale.equalsIgnoreCase(counrty)){
+                ivCountry.setImageResource(c.flag);
+                tvCountryCode.setText(c.code+"");
+                tvCountry.setText(c.name);
+                break;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 111 && resultCode == Activity.RESULT_OK) {
+            Country country = Country.fromJson(data.getStringExtra("country"));
+            if(country.flag != 0) ivCountry.setImageResource(country.flag);
+            tvCountry.setText(country.name);
+            tvCountryCode.setText("+" + country.code);
+        }
     }
 }

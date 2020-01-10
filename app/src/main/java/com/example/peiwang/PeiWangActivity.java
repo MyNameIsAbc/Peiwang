@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +19,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.base.BaseActivity;
 import com.example.bean.ShengboBean;
+import com.example.bean.TuYaDeviceBean;
+import com.example.bean.TuYaTokenBean;
+import com.example.bean.TuyaInfoBean;
 import com.example.net.ApiService;
 import com.example.net.RetrofitManager;
 import com.example.utils.MediaPlayerUtils;
@@ -28,16 +34,29 @@ import com.example.utils.WifiUtils;
 import com.orhanobut.logger.Logger;
 import com.sahooz.library.Country;
 import com.sahooz.library.ExceptionCallback;
+import com.tuya.smart.android.user.api.ILoginCallback;
+import com.tuya.smart.android.user.bean.User;
+import com.tuya.smart.config.TuyaAPConfig;
+import com.tuya.smart.config.TuyaConfig;
+import com.tuya.smart.home.sdk.TuyaHomeSdk;
+import com.tuya.smart.home.sdk.builder.ActivatorBuilder;
+import com.tuya.smart.sdk.api.ITuyaActivator;
+import com.tuya.smart.sdk.api.ITuyaActivatorGetToken;
+import com.tuya.smart.sdk.api.ITuyaSmartActivatorListener;
+import com.tuya.smart.sdk.bean.DeviceBean;
+import com.tuya.smart.sdk.enums.ActivatorModelEnum;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -65,6 +84,7 @@ public class PeiWangActivity extends BaseActivity {
     NetworkConnectChangedReceiver networkConnectChangedReceiver = null;
     int type;
 
+    CountDownTimer timer;
 
     @Override
     protected int getContentViewId() {
@@ -91,8 +111,6 @@ public class PeiWangActivity extends BaseActivity {
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         networkConnectChangedReceiver = new NetworkConnectChangedReceiver();
         registerReceiver(networkConnectChangedReceiver, filter);
-
-
     }
 
     @Override
@@ -146,16 +164,16 @@ public class PeiWangActivity extends BaseActivity {
                     .subscribeOn(Schedulers.computation())
                     //指定下游接收事件线程
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<String>() {
+                    .subscribe(new Observer<TuYaTokenBean>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(String s) {
+                        public void onNext(TuYaTokenBean s) {
                             hideLoading();
-                            Logger.d("tuYaToken:" + s);
+                            TuyaPeiWang(s.getData().getDeviceTokenToApp(), s.getData().getToken());
                         }
 
                         @Override
@@ -227,4 +245,58 @@ public class PeiWangActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+    public void TuyaPeiWang(String peiWangtoken, String token) {
+        TuyaConfig.getEZInstance().startConfig(ssid, etPassward.getText().toString().trim(), peiWangtoken);
+        long millisInFuture = 60 * 1000;
+        long countDownInterval = 2000;
+        timer = new CountDownTimer(millisInFuture, countDownInterval) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //millisUntilFinished  剩余时间回调，这个是实时的（以countDownInterval为单位）
+                RetrofitManager.getInstance().getRetrofit()
+                        //动态代理创建GithubAPI对象
+                        .create(ApiService.class)
+                        .getDevicesByToken(SharePreferencesUtils.getString(getApplicationContext(), "accesstoken", ""), token)
+                        //指定上游发送事件线程
+                        .subscribeOn(Schedulers.computation())
+                        //指定下游接收事件线程
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<TuYaDeviceBean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(TuYaDeviceBean s) {
+                                if (!s.getData().getSuccessDevices().isEmpty()) {
+                                    timer.cancel();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+            }
+
+            @Override
+            public void onFinish() {
+                //结束时的回调
+            }
+        };
+        timer.start();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

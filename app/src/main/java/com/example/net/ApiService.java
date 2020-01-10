@@ -4,6 +4,9 @@ package com.example.net;
 import com.example.bean.LoginSuccessBean;
 import com.example.bean.ShengboBean;
 import com.example.bean.StatusBean;
+import com.example.bean.TuYaDeviceBean;
+import com.example.bean.TuYaTokenBean;
+import com.example.bean.TuyaInfoBean;
 import com.example.bean.ValidateCodeBean;
 import com.example.bean.VisitorBean;
 
@@ -62,10 +65,16 @@ public interface ApiService {
     @GET("user/findPassword")
     Observable<ValidateCodeBean>resetPassward(@Query("password") String password, @Query("username") String username,
                                               @Query("code") String code);
-
     @POST("jachat/visitorLogin")
     Observable<VisitorBean>visitLogin();
 
     @POST("tuya/getToken")
-    Observable<String>getTuYaToken(@Header("access_token")String accesstoken);
+    Observable<TuYaTokenBean>getTuYaToken(@Header("access_token")String accesstoken);
+
+    @POST("tuya/getTuyaClientInfo")
+    Observable<TuyaInfoBean>getTuyaClientInfo(@Header("access_token")String accesstoken);
+
+    @FormUrlEncoded
+    @POST("tuya/getDevicesByToken")
+    Observable<TuYaDeviceBean>getDevicesByToken(@Header("access_token")String accesstoken, @Field("token")String token );
 }
