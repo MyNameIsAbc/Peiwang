@@ -58,7 +58,7 @@
         <activity android:name=".LoginActivity"/>
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".RestPwdActivity"/>
-
+        <activity android:name="com.sahooz.library.PickActivity"/>
         <meta-data
             android:name="TUYA_SMART_APPKEY"
             android:value="phd3hdmrfs3mvajfg7uw" />

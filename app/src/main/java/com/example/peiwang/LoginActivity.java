@@ -1,17 +1,20 @@
 package com.example.peiwang;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 import com.example.base.BaseActivity;
 import com.example.base.Constant;
@@ -21,16 +24,21 @@ import com.example.presenter.LoginPresenter;
 import com.example.utils.SharePreferencesUtils;
 import com.example.view.MvpView;
 import com.orhanobut.logger.Logger;
+import com.sahooz.library.Country;
+import com.sahooz.library.ExceptionCallback;
+import com.sahooz.library.PickActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.content.Context.VIBRATOR_SERVICE;
 
 public class LoginActivity extends BaseActivity implements MvpView {
 
@@ -52,6 +60,16 @@ public class LoginActivity extends BaseActivity implements MvpView {
     TextView tvResetpwd;
 
     LoginPresenter loginPresenter;
+    @BindView(R.id.tv_country)
+    TextView tvCountry;
+    @BindView(R.id.tv_country_code)
+    TextView tvCountryCode;
+    @BindView(R.id.iv_select_country)
+    ImageView ivSelectCountry;
+    @BindView(R.id.iv_country)
+    ImageView ivCountry;
+    @BindView(R.id.ll_login_country)
+    ConstraintLayout llLoginCountry;
 
     private String userName = "";
     private String userPwd = "";
@@ -69,6 +87,7 @@ public class LoginActivity extends BaseActivity implements MvpView {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
         loginPresenter = new LoginPresenter(this);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         userName = SharePreferencesUtils.getString(getApplicationContext(), "phone", "");
@@ -86,7 +105,7 @@ public class LoginActivity extends BaseActivity implements MvpView {
 
     }
 
-    @OnClick({R.id.tv_resetpwd, R.id.bt_login, R.id.tv_vcode_login, R.id.tv_register})
+    @OnClick({R.id.tv_resetpwd, R.id.bt_login, R.id.tv_vcode_login, R.id.tv_register,R.id.ll_login_country})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_resetpwd:
@@ -103,11 +122,11 @@ public class LoginActivity extends BaseActivity implements MvpView {
             case R.id.tv_register:
                 gotoActivity(RegisterActivity.class);
                 break;
+            case R.id.ll_login_country:
+                startActivityForResult(new Intent(getApplicationContext(), PickActivity.class), 111);
+                break;
         }
     }
-
-
-
 
 
     private boolean checkValidity() {
@@ -146,8 +165,8 @@ public class LoginActivity extends BaseActivity implements MvpView {
 
     @Override
     public void getData(Object data) {
-        LoginSuccessBean loginSuccessBean=(LoginSuccessBean)data;
-        Logger.d("LoginSuccessBean:"+loginSuccessBean.toString());
+        LoginSuccessBean loginSuccessBean = (LoginSuccessBean) data;
+        Logger.d("LoginSuccessBean:" + loginSuccessBean.toString());
         SharePreferencesUtils.setString(getApplicationContext(), "accesstoken", loginSuccessBean.getData().getToken());
         SharePreferencesUtils.setString(getApplicationContext(), "phone", userName);
         SharePreferencesUtils.setString(getApplicationContext(), "passward", userPwd);
@@ -160,7 +179,7 @@ public class LoginActivity extends BaseActivity implements MvpView {
         showToast(msg);
     }
 
-    public void initCountry(){
+    public void initCountry() {
         //获取 Locale  对象的正确姿势：
         Locale locale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -168,7 +187,38 @@ public class LoginActivity extends BaseActivity implements MvpView {
         } else {
             locale = getResources().getConfiguration().locale;
         }
-        String counrty=locale.getCountry();
+        String counrty = locale.getCountry();
+        List<Country> countries = new ArrayList<>();
+        countries.clear();
+        countries.addAll(Country.getAll(this, new ExceptionCallback() {
+            @Override
+            public void onIOException(IOException e) {
 
+            }
+
+            @Override
+            public void onJSONException(JSONException e) {
+
+            }
+        }));
+        for (Country c:countries) {
+            if (c.locale.equalsIgnoreCase(counrty)){
+                ivCountry.setImageResource(c.flag);
+                tvCountryCode.setText(c.code+"");
+                tvCountry.setText(c.name);
+                break;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 111 && resultCode == Activity.RESULT_OK) {
+            Country country = Country.fromJson(data.getStringExtra("country"));
+            if(country.flag != 0) ivCountry.setImageResource(country.flag);
+            tvCountry.setText(country.name);
+            tvCountryCode.setText("+" + country.code);
+        }
     }
 }

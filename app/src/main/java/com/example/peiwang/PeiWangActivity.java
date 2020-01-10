@@ -26,7 +26,12 @@ import com.example.utils.MediaPlayerUtils;
 import com.example.utils.SharePreferencesUtils;
 import com.example.utils.WifiUtils;
 import com.orhanobut.logger.Logger;
+import com.sahooz.library.Country;
+import com.sahooz.library.ExceptionCallback;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +65,7 @@ public class PeiWangActivity extends BaseActivity {
     NetworkConnectChangedReceiver networkConnectChangedReceiver = null;
     int type;
 
+
     @Override
     protected int getContentViewId() {
         return R.layout.activity_peiwang;
@@ -85,6 +91,7 @@ public class PeiWangActivity extends BaseActivity {
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         networkConnectChangedReceiver = new NetworkConnectChangedReceiver();
         registerReceiver(networkConnectChangedReceiver, filter);
+
 
     }
 
