@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="31dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="230dp"
         android:layout_marginRight="31dp"
         android:background="@drawable/bg_login_frame"
         android:focusable="true"
@@ -70,7 +70,7 @@
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_login_country">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -92,6 +92,16 @@
             android:textColorHint="#FFC5C5C5"
             android:textSize="14sp" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/colorglay"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_login_phone"
+        />
 
     <LinearLayout
         android:id="@+id/ll_login_vcode"
@@ -135,6 +145,16 @@
             android:textColor="#3699FF"
             android:textSize="14sp" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/colorglay"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_login_vcode"
+        />
 
     <Button
         android:id="@+id/bt_login"
@@ -155,6 +175,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:text="验证码登录"
+        android:visibility="gone"
         android:textColor="@color/colorMain"
         android:textSize="12sp"
         android:visibility="gone"
