@@ -100,7 +100,7 @@ public class LoginVercodeActivity extends BaseActivity implements MvpView {
     }
 
 
-    @OnClick({R.id.tv_getVcode, R.id.bt_login, R.id.tv_vcode_login, R.id.tv_register,R.id.ll_login_country})
+    @OnClick({R.id.tv_getVcode, R.id.bt_login, R.id.tv_vcode_login, R.id.tv_register,R.id.ll_login_country,R.id.iv_act_loginvecode_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_getVcode:
@@ -120,6 +120,9 @@ public class LoginVercodeActivity extends BaseActivity implements MvpView {
                 break;
             case R.id.ll_login_country:
                 startActivityForResult(new Intent(getApplicationContext(), PickActivity.class), 111);
+                break;
+            case R.id.iv_act_loginvecode_back:
+                finish();
                 break;
         }
     }

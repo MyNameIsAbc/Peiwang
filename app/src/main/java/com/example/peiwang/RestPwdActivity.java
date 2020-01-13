@@ -69,7 +69,7 @@ public class RestPwdActivity extends BaseActivity implements ResetView {
 
     }
 
-    @OnClick({R.id.tv_getVcode, R.id.bt_login})
+    @OnClick({R.id.tv_getVcode, R.id.bt_login,R.id.iv_act_reset_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_getVcode:
@@ -90,6 +90,9 @@ public class RestPwdActivity extends BaseActivity implements ResetView {
                 if (checkValidity()) {
                     resetPresenter.resetPassward(userName, userPwd, vercode);
                 }
+                break;
+            case R.id.iv_act_reset_back:
+                finish();
                 break;
         }
     }

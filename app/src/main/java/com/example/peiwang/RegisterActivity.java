@@ -97,7 +97,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
 
     }
 
-    @OnClick({R.id.tv_getVcode, R.id.bt_login,R.id.ll_login_country})
+    @OnClick({R.id.tv_getVcode, R.id.bt_login,R.id.ll_login_country,R.id.iv_act_register_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_getVcode:
@@ -121,6 +121,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
                 break;
             case R.id.ll_login_country:
                 startActivityForResult(new Intent(getApplicationContext(), PickActivity.class), 111);
+                break;
+            case R.id.iv_act_register_back:
+                finish();
                 break;
         }
     }
