@@ -1,5 +1,7 @@
 package com.example.fragment;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -19,6 +21,7 @@ import com.example.base.BaseAdapter;
 import com.example.base.BaseFragment;
 import com.example.base.Constant;
 import com.example.bean.DeviceBean;
+import com.example.bean.MessageEvent;
 import com.example.bean.MessageWaper;
 import com.example.bean.StatusBean;
 import com.example.db.Device;
@@ -28,8 +31,10 @@ import com.example.net.ApiService;
 import com.example.net.RetrofitManager;
 import com.example.peiwang.AddDeviceActivity;
 import com.example.peiwang.DeviceSettingActivity;
+import com.example.peiwang.MainActivity;
 import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
+import com.example.utils.BluetoothUtils;
 import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
 import com.kongzue.dialog.v3.BottomMenu;
 import com.orhanobut.logger.Logger;
@@ -42,7 +47,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,7 +96,7 @@ public class HomeFragment extends BaseFragment {
                 if (deviceBean.getNetwork() == -1) {
                     Intent intent = new Intent(getActivity(), PeiWangActivity.class);
                     getActivity().startActivity(intent);
-                }else {
+                } else {
                     Intent intent = new Intent(getActivity(), DeviceSettingActivity.class);
                     intent.putExtra("bean", (DeviceBean) data);
                     getActivity().startActivity(intent);
@@ -148,21 +155,70 @@ public class HomeFragment extends BaseFragment {
 //        Intent intent = new Intent(getActivity(), AddDeviceActivity.class);
 //        getActivity().startActivity(intent);
         BottomMenu.show((AppCompatActivity) getContext(),
-                new String[]{getResources().getString (R.string.fragment_about_add_one),
-                        getResources().getString (R.string.fragment_about_add_two)}, new OnMenuItemClickListener() {
+                new String[]{getResources().getString(R.string.fragment_about_add_one),
+                        getResources().getString(R.string.fragment_about_add_two)}, new OnMenuItemClickListener() {
                     @Override
                     public void onClick(String text, int index) {
-                        switch (index){
+                        switch (index) {
                             case 0:
                                 gotoActivity(AddDeviceActivity.class);
                                 break;
                             case 1:
-                                Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
-                                startActivity(intent);
+//                                Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+//                                startActivity(intent);
+
+                                BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+                                Class<BluetoothAdapter> bluetoothAdapterClass = BluetoothAdapter.class;//得到BluetoothAdapter的Class对象
+                                if (!adapter.isEnabled()) {
+                                    //通过这个方法来请求打开我们的蓝牙设备
+                                    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                                    startActivityForResult(intent, Constant.BLUETOOTH_RESPONSE);
+                                    startActivity(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
+                                } else {
+                                    try {//得到连接状态的方法
+                                        Method method = bluetoothAdapterClass.getDeclaredMethod("getConnectionState", (Class[]) null);
+                                        //打开权限
+                                        method.setAccessible(true);
+                                        int state = (int) method.invoke(adapter, (Object[]) null);
+                                        if(state == BluetoothAdapter.STATE_CONNECTED){
+                                            Logger.i("BLUETOOTH","BluetoothAdapter.STATE_CONNECTED");
+                                            Set<BluetoothDevice> devices = adapter.getBondedDevices();
+                                            Logger.i("BLUETOOTH","devices:"+devices.size());
+                                            for(BluetoothDevice device : devices){
+                                                Method isConnectedMethod = BluetoothDevice.class.getDeclaredMethod("isConnected", (Class[]) null);
+                                                method.setAccessible(true);
+                                                boolean isConnected = (boolean) isConnectedMethod.invoke(device, (Object[]) null);
+                                                if(isConnected){
+                                                    Logger.i("BLUETOOTH","connected:"+device.getName());
+                                                    String mBlueAdress = device.getAddress();
+                                                    DeviceDaoUtils deviceDaoUtils = new DeviceDaoUtils(getContext());
+                                                    List<Device> Buledevices = deviceDaoUtils.queryDeviceByQueryBuilder(mBlueAdress);
+                                                    if (Buledevices.isEmpty()) {
+                                                        Device Buledevice = new Device();
+                                                        Buledevice.setSn(mBlueAdress);
+                                                        Buledevice.setSource("type_2");
+                                                        deviceDaoUtils.insertDevice(Buledevice);
+                                                        DeviceBean deviceBean = new DeviceBean(mBlueAdress, -1, -1, -1,
+                                                                -1, "", "");
+//
+                                                        homneAdapter.addData(deviceBean);
+                                                        linTip.setVisibility(View.INVISIBLE);
+                                                    }
+                                                }
+                                            }
+                                        }else{
+                                            Logger.e("蓝牙已打开，但未连接");
+                                            startActivity(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
                                 break;
                         }
                     }
-                }).setTitle(getResources().getString (R.string.fragment_about_add_title)
+                }).setTitle(getResources().getString(R.string.fragment_about_add_title)
         );
     }
 
@@ -176,6 +232,7 @@ public class HomeFragment extends BaseFragment {
                 if (devices.isEmpty()) {
                     Device device = new Device();
                     device.setSn(sn);
+                    device.setSource("type_1");
                     deviceDaoUtils.insertDevice(device);
                     getDeviceInfo(sn);
                 }
@@ -234,6 +291,19 @@ public class HomeFragment extends BaseFragment {
 
                     }
                 });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        switch (messageEvent.getType()) {
+            case Constant.EVENT_BLUETOOTH_ABOUTTOHOME:
+                DeviceBean mDeviceBean = (DeviceBean) messageEvent.getObject();
+
+                homneAdapter.addData(mDeviceBean);
+                linTip.setVisibility(View.INVISIBLE);
+                break;
+
+        }
     }
 
 }

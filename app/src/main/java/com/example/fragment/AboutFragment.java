@@ -1,5 +1,7 @@
 package com.example.fragment;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -15,10 +17,15 @@ import android.widget.Toast;
 import com.example.base.App;
 import com.example.base.BaseFragment;
 import com.example.base.Constant;
+import com.example.bean.DeviceBean;
+import com.example.bean.MessageEvent;
 import com.example.bean.MessageWaper;
+import com.example.db.Device;
+import com.example.db.DeviceDaoUtils;
 import com.example.peiwang.AboutActivity;
 import com.example.peiwang.AddDeviceActivity;
 import com.example.peiwang.LoginActivity;
+import com.example.peiwang.MainActivity;
 import com.example.peiwang.PeiWangActivity;
 import com.example.peiwang.R;
 import com.example.utils.SharePreferencesUtils;
@@ -27,10 +34,15 @@ import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.BottomMenu;
 import com.kongzue.dialog.v3.MessageDialog;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,8 +108,10 @@ public class AboutFragment extends BaseFragment {
                                         gotoActivity(AddDeviceActivity.class);
                                         break;
                                     case 1:
-                                        Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
-                                        startActivity(intent);
+//                                        Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+//                                        startActivity(intent);
+                                        MainActivity.SavingBlueTooth(getContext());
+
                                         break;
                                 }
                             }

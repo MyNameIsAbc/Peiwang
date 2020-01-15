@@ -116,6 +116,12 @@ public class Constant {
     public static final int TEXT_TYPE_FA_IR = 0x100058;
     public static final int TEXT_TYPE_CA_ES = 0x100059;
 
+    public static final int BLUETOOTH_RESPONSE = 110;
+    public static final int EVENT_BLUETOOTH_ABOUTTOHOME =1009;
+    public static final int EVENT_BLUETOOTH_SETTING =1010;
+    public static final int EVENT_BLUETOOTH_SETTING2 =1011;
+
+
 
     public static final int TEXT_TYPE_ADD_DEVICE = 1024;
 

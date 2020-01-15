@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.example.bean.LanguageBean;
 import com.example.bean.TuYaTokenBean;
 import com.example.bean.TuyaInfoBean;
 import com.example.db.LangDaoUtils;
@@ -44,6 +45,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -53,6 +55,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class App extends MultiDexApplication {
 
+
+
+    public static CopyOnWriteArrayList<LanguageBean> languageBeans=new CopyOnWriteArrayList<>();
 
     public static String getSysText(int textType) {
         return SystemText.getChineseText(textType);
